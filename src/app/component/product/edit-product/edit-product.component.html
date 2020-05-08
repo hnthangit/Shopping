@@ -1,0 +1,235 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Edit Product</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink='/' routerLinkActive="active">Home</a></li>
+          <li class="breadcrumb-item active"><a routerLink='/products' routerLinkActive="active">Product</a>
+          </li>
+          <li class="breadcrumb-item active">Edit</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Product Info</h3>
+          <div class="card-tools">
+            <button class="btn btn-tool" type="button" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Form Value: {{ productForm.value | json }} -->
+        <form [formGroup]="productInfoForm" (ngSubmit)="onSubmitInfo(productInfoForm.value)">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Name *</label>
+              <input type="text" formControlName="name" required class="form-control">
+              <ng-container
+                *ngIf="productInfoForm.controls.name.invalid && (productInfoForm.controls.name.dirty || productInfoForm.controls.name.touched)">
+                <small class="text-danger" *ngIf="productInfoForm.controls.name.errors.required">
+                  Name required
+                </small>
+              </ng-container>
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Price *</label>
+              <input type="text" formControlName="price" required class="form-control">
+              <ng-container
+                *ngIf="productInfoForm.controls.price.invalid && (productInfoForm.controls.price.dirty || productInfoForm.controls.price.touched)">
+                <small class="text-danger" *ngIf="productInfoForm.controls.price.errors.required">
+                  Price required
+                </small>
+                <small class="text-danger" *ngIf="productInfoForm.controls.price.errors.pattern">
+                  Check number
+                </small>
+              </ng-container>
+            </div>
+            <div class="form-group">
+              <label>SKU *</label>
+              <input type="text" formControlName="sku" class="form-control">
+              <ng-container
+                *ngIf="productInfoForm.controls.sku.invalid && (productInfoForm.controls.sku.dirty || productInfoForm.controls.sku.touched)">
+                <small class="text-danger" *ngIf="productInfoForm.controls.sku.errors.required">
+                  Name required
+                </small>
+              </ng-container>
+            </div>
+            <div class="form-group">
+              <label>Short Description</label>
+              <textarea type="text" formControlName="shortDescription" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Full Description</label>
+              <!-- <textarea type="text" formControlName="description" class="form-control" rows="4"></textarea> -->
+              <editor formControlName="fullDescription" [init]="{
+                height: 200,
+                menubar: false,          
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                  'undo redo | formatselect | fontselect fontsizeselect | bold italic backcolor | \
+                  alignleft aligncenter alignright alignjustify | link image | \
+                  bullist numlist outdent indent | removeformat | help'
+              }"></editor>
+            </div>
+            <!-- <div class="form-group">
+          <label>Image</label>
+          <input type="file" (change)="onFileSelect($event)" class="form-control">
+        </div> -->
+            <div class="form-group" formGroupName="manufacturerEntity">
+              <label>Manufacturer *</label>
+              <select class="form-control" formControlName="id" (change)='onOptionsSelected($event)'>
+                <option *ngFor="let manufacturer of manufacturers" value={{manufacturer.id}}>{{manufacturer.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group" formGroupName="categoryEntity">
+              <label>Category *</label>
+              <select formControlName="id" required class="form-control">
+                <option *ngFor="let category of categories" value={{category.id}}>
+                  {{category.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary float-right" [disabled]="!productInfoForm.valid">Update
+              Info</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Product SEO</h3>
+        </div>
+        <!-- Form Value: {{ productForm.value | json }} -->
+        <form [formGroup]="productSeoForm" (ngSubmit)="onSubmitInfo(productInfoForm.value)">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Search engine page name</label>
+              <input type="text" formControlName="url" required class="form-control">
+              <ng-container
+                *ngIf="productInfoForm.controls.name.invalid && (productInfoForm.controls.name.dirty || productInfoForm.controls.name.touched)">
+                <small class="text-danger" *ngIf="productInfoForm.controls.name.errors.required">
+                  Name required
+                </small>
+              </ng-container>
+            </div>
+            <div class="form-group">
+              <label>Meta title</label>
+              <input type="text" formControlName="metaTitle" required class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Meta keywords</label>
+              <input type="text" formControlName="metaKeyword" required class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Meta description</label>
+              <textarea type="text" formControlName="metaDescription" class="form-control" rows="4"></textarea>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary float-right" [disabled]="!productInfoForm.valid">Update
+              SEO</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Product Image</h3>
+          <div class="card-tools">
+            <button class="btn btn-tool" type="button" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Form Value: {{ productForm.value | json }} -->
+        <form [formGroup]="productImageForm" (ngSubmit)="onSubmitInfo(productInfoForm.value)">
+          <div class="card-body">
+            <table class="table projects">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Display Order</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let image of sortImage()">
+                  <td>
+                    <img style="height: 100px; width: 100px;" [src]="url+image.image" alt="" srcset="">
+                  </td>
+                  <td>{{image.displayOrder}}</td>
+                  <td>
+                    <ng-container *ngIf="image.image===mainImage">
+                      <span class="badge badge-success">Main Image</span>
+                    </ng-container>
+                    
+                    <span class="badge badge-primary">Display</span>
+                    <span class="badge badge-secondary">Hidden</span>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0);" class="btn btn-info btn-sm">
+                      <i class="fas fa-chevron-down"></i>
+                      Down
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-info btn-sm">
+                      <i class="fas fa-chevron-up"></i>
+                      Up
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-primary btn-sm">
+                      <i class="fas fa-chevron-down"></i>
+                      Set as Main Image
+                    </a>
+                    <a class="btn btn-danger btn-sm" href="javascript:void(0);">
+                      <i class="fas fa-trash">
+                      </i>
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="form-group">
+              <label>Image</label>
+
+              <input type="file" class="form-control">
+              <input type="hidden" formControlName="image" class="form-control">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary float-right"
+              [disabled]="!productInfoForm.valid">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->

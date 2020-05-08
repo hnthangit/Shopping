@@ -1,2 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+
+/* Toast */
+/* @import '~ngx-toastr/toastr.css'; */
+@import "assets/css/toastr-bs4-alert.css";
+
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=swap');
+@import "assets/css/adminlte.min.css";
+@import "assets/plugins/fontawesome-free/css/all.min.css";
+@import "assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css";
+
+.content-wrapper .content {
+    padding: 0 .5rem;
+}
+
+.card-header {
+    text-align: center;
+}
+
+
+
