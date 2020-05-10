@@ -69,24 +69,6 @@ export class ShowManufacturerComponent implements OnInit {
   }
 
   delete = (manufacturerId: number, manufacturerName: string) => {
-    // let isDelete = confirm("Do you want delete this item");
-    // if (isDelete == true) {
-    //   console.log("true");
-      // this.manufacturerService.deleteManufacturer(manufacturerId).subscribe(
-      //   response => {
-      //     this.showSuccess();
-      //     this.manufacturerService.getAllManufacturers(0, this.entries, this.manufacturerForm.value.name, this.manufacturerForm.value.address).subscribe(response => {
-      //       this.manufacturers = response.data.list;
-      //       this.totalPage = response.data.totalPage;
-      //       this.currentPage = response.data.currentPage;
-      //     });
-      //   },
-    //     error => {
-    //       alert("Can't delete, this item have another product")
-    //     });
-    //   ;
-
-    // }
     const modalRef = this.modalService.open(ModalSmComponent);
     modalRef.componentInstance.title = `Do you want delete '${manufacturerName}'`;
     modalRef.componentInstance.content = 'This action cannot be undone';

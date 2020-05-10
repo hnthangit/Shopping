@@ -56,16 +56,7 @@ export class AddProductComponent implements OnInit {
   })
 
   onSubmit() {
-    // let product = JSON.stringify(values);
-    // // console.log(product);
-    // this.formData.append("product", product);
-    // this.productService.addProduct(this.formData).subscribe(response => {
-    //   this.showSuccess();
-    //   this.router.navigate(['products']);
-    //   //this.reset();
-    // });
 
-    //console.log(this.formData.get('file'));
     this.fileSerivce.uploadImage(this.formData).subscribe(
       response => {
         console.log(response['data']);
@@ -85,9 +76,9 @@ export class AddProductComponent implements OnInit {
   onFileSelect(event) {
     //this.selectedFile = event.target.files[0];
     this.previewImg(event.target.files[0]);
-    console.log(this.formData.get('file'));
+    //console.log(this.formData.get('file'));
     this.formData.set('file', event.target.files[0]);
-    console.log(this.formData.get('file'));
+    //console.log(this.formData.get('file'));
   }
 
   previewImg(file) {

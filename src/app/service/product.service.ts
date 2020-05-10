@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { serverUrl } from '../constant/constant';
 import { product } from '../model/product';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +35,10 @@ export class ProductService {
 
   updateProduct = (body: any): any => {
     const url = `${serverUrl}products`;
-    return this.http.put(url, body);
+    return this.http.patch(url, body);
   }
 
-  deleteProduct= (id: number): any => {
+  deleteProduct = (id: number): any => {
     const url = `${serverUrl}products/${id}`;
     return this.http.delete(url);
   }
@@ -46,5 +46,38 @@ export class ProductService {
   getOneProduct = (id: number): Observable<product> => {
     const url = `${serverUrl}products/${id}`;
     return this.http.get<product>(url);
+  }
+
+  isNameExist = (name: string) => {
+    const url = `${serverUrl}products/checkname/${name}`;
+    return this.http.get(url);
+  }
+
+  isSkuExist = (sku: string) => {
+    if(sku==''){
+      return of('');
+    }
+    const url = `${serverUrl}products/checksku/${sku}`;
+    return this.http.get(url);
+  }
+
+  isUrlExist = (urlLink: string) => {
+    const url = `${serverUrl}products/checkurl/${urlLink}`;
+    return this.http.get(url);
+  }
+
+  updateImageDisplayOrder = (imageId1: number, imageId2: number, body: any) => {
+    const url = `${serverUrl}products/display-order?imageId1=${imageId1}&imageId2=${imageId2}`;
+    return this.http.post(url, body);
+  }
+
+  deleteImageProduct = (imageId: number, body: any) => {
+    const url = `${serverUrl}products/delete-image?imageId=${imageId}`;
+    return this.http.post(url, body);
+  }
+
+  addImageProduct = (body: any) => {
+    const url = `${serverUrl}products/add-image`;
+    return this.http.post(url, body);
   }
 }

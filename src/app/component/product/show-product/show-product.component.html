@@ -76,38 +76,6 @@
               </ng-container>
             </div>
           </div>
-          <!-- <div class="form-row">
-            <div class="col-6">
-              <label>Price From</label>
-              <input type="text" formControlName="priceFrom" class="form-control">
-              <ng-container
-                *ngIf="productForm.controls.priceFrom.invalid && (productForm.controls.priceFrom.dirty || productForm.controls.priceFrom.touched)">
-                <small class="text-danger" *ngIf="productForm.controls.priceFrom.errors.pattern">
-                  Check number
-                </small>
-              </ng-container>
-              <ng-container *ngIf="productForm.errors?.invalidPrice && (productForm.touched || productForm.dirty)">
-                <small class="text-danger">
-                  PriceTo >= PriceFrom
-                </small>
-              </ng-container>
-            </div>
-            <div class="col-6">
-              <label>Price To</label>
-              <input type="text" formControlName="priceTo" class="form-control">
-              <ng-container
-                *ngIf="productForm.controls.priceTo.invalid && (productForm.controls.priceTo.dirty || productForm.controls.priceTo.touched)">
-                <small class="text-danger" *ngIf="productForm.controls.priceTo.errors.pattern">
-                  Check number
-                </small>
-              </ng-container>
-              <ng-container *ngIf="productForm.errors?.invalidPrice && (productForm.touched || productForm.dirty)">
-                <small class="text-danger">
-                  PriceTo >= PriceFrom
-                </small>
-              </ng-container>
-            </div>
-          </div> -->
           <div class="card-footer mt-2 d-flex justify-content-center">
 
             <button type="submit" class="btn btn-lg btn-success mr-2" [disabled]="!productForm.valid"><i
