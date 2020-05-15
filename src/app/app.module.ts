@@ -11,7 +11,6 @@ import { SwaggerComponent } from "./component/swagger/swagger.component";
 import { LoginComponent } from "./component/login/login.component";
 import { PageNotFoundComponent } from "./component/page-not-found/page-not-found.component";
 import { ReactiveFormsModule } from '@angular/forms';
-import { ModalSmComponent } from './component/modal-sm/modal-sm.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { ModalSmComponent } from './component/modal-sm/modal-sm.component';
     SwaggerComponent,
     LoginComponent,
     PageNotFoundComponent,
-    ModalSmComponent,
   ],
   imports: [
     BrowserModule,

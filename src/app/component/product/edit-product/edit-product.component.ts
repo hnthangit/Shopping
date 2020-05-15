@@ -13,6 +13,8 @@ import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 import { FileService } from 'src/app/service/file.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSmComponent } from '../../modal-sm/modal-sm.component';
+import { AttributeService } from 'src/app/service/attribute.service';
+import { ProductAttributeComponent } from './product-attribute/product-attribute.component';
 
 @Component({
   selector: 'app-edit-product',
@@ -36,6 +38,8 @@ export class EditProductComponent implements OnInit {
   public spinner = false;
   public imagePath;
   imgURL: any;
+  public attributes = [];
+  public productAttributes = [];
 
   private isNameExist = (service: ProductService): AsyncValidatorFn => {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -92,6 +96,7 @@ export class EditProductComponent implements OnInit {
     private toastr: ToastrService,
     private manufacturerService: ManufacturerService,
     private categoryService: CategoryService,
+    private attributeService: AttributeService,
     private fileService: FileService,
     private modalService: NgbModal,
   ) { }
@@ -146,6 +151,10 @@ export class EditProductComponent implements OnInit {
     })
     this.categoryService.getCategorySelect().subscribe(response => {
       this.categories = response;
+    })
+
+    this.attributeService.getAllAttributes().subscribe(response => {
+      this.attributes = response;
     })
   }
 
@@ -348,6 +357,71 @@ export class EditProductComponent implements OnInit {
     return this.images.sort((a, b) => a.displayOrder - b.displayOrder);
   }
 
+  sortProductAttribute = () => {
+    return this.productAttributes.sort((a, b) => a.attributeId - b.attributeId);
+  }
+
+  getAttributeName = (attributeId: number) => {
+    for (let index = 0; index < this.attributes.length; index++) {
+      if (this.attributes[index].id == attributeId) {
+        return this.attributes[index].name;
+      }
+    }
+  }
+
+  deleteProductAttribute = (productAttributeId: number) => {
+    console.log(productAttributeId);
+    this.productService.deleteProductAttribute(productAttributeId, null).subscribe(
+      response => {
+        this.showSuccess();
+        this.productAttributes = response['data'];
+      }
+    )
+  }
+
+  openProductAttributeFormModal = (productAttribute: any) => {
+    const modalRef = this.modalService.open(ProductAttributeComponent);
+    modalRef.componentInstance.attributes = this.attributes;
+    modalRef.componentInstance.productId = this.productInfoForm.controls.id.value;
+    modalRef.componentInstance.productAttribute = productAttribute;
+
+    modalRef.result.then(
+      result => {
+        if (result) {
+          console.log(result);
+          this.productService.addProductAttribue(result).subscribe(
+            response => {
+              this.showSuccess();
+              this.productAttributes = response['data']
+            }
+          )
+        }
+      }
+    )
+  }
+
+  toggleProductAttribute = (productAttribute: any) => {
+    productAttribute.status = !productAttribute.status;
+    productAttribute = Object.assign(
+      {
+        attributeEntity: {
+          id: productAttribute.attributeId
+        },
+        productEntity: {
+          id: this.productInfoForm.controls.id.value
+        }
+      },
+      productAttribute)
+    delete productAttribute.attributeId;
+    this.productService.addProductAttribue(productAttribute).subscribe(
+      response => {
+        this.showSuccess();
+        this.productAttributes = response['data']
+      }
+    )
+  }
+
+
   getProductInfo = () => {
     const productId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.productService.getOneProduct(productId).subscribe(response => {
@@ -393,6 +467,7 @@ export class EditProductComponent implements OnInit {
 
       this.images = response['data'].productImageSet;
       this.mainImage = response['data'].image;
+      this.productAttributes = response['data'].productAttributeSet;
     });
   }
 

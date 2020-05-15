@@ -66,6 +66,11 @@ export class ProductService {
     return this.http.get(url);
   }
 
+  isValueExist = (value: string, productId: number) => {
+    const url = `${serverUrl}products/checkvalue?value=${value}&productId=${productId}`;
+    return this.http.get(url);
+  }
+
   updateImageDisplayOrder = (imageId1: number, imageId2: number, body: any) => {
     const url = `${serverUrl}products/display-order?imageId1=${imageId1}&imageId2=${imageId2}`;
     return this.http.post(url, body);
@@ -78,6 +83,16 @@ export class ProductService {
 
   addImageProduct = (body: any) => {
     const url = `${serverUrl}products/add-image`;
+    return this.http.post(url, body);
+  }
+
+  deleteProductAttribute = (productAttributeId: number, body: any) => {
+    const url = `${serverUrl}product-attribute/${productAttributeId}`;
+    return this.http.delete(url, body);
+  }
+
+  addProductAttribue = (body: any) => {
+    const url = `${serverUrl}products/product-attribute`;
     return this.http.post(url, body);
   }
 }

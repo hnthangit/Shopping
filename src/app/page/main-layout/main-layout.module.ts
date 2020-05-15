@@ -27,6 +27,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalSmComponent } from 'src/app/component/modal-sm/modal-sm.component';
+import { ProductAttributeComponent } from 'src/app/component/product/edit-product/product-attribute/product-attribute.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,8 @@ import { ModalSmComponent } from 'src/app/component/modal-sm/modal-sm.component'
     NavbarComponent,
     FooterComponent,
     PaginatorComponent,
+    ProductAttributeComponent,
+    ModalSmComponent,
   ],
   imports: [
     CommonModule,
@@ -59,7 +62,8 @@ import { ModalSmComponent } from 'src/app/component/modal-sm/modal-sm.component'
     NgbModule,
   ],
   entryComponents:[
-    ModalSmComponent
+    ModalSmComponent,
+    ProductAttributeComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
