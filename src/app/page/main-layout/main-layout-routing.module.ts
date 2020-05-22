@@ -15,7 +15,7 @@ import { AuthGuard } from 'src/app/auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: '', component: MainLayoutComponent,
+    path: 'admin', component: MainLayoutComponent,
     // canActivate: [AuthGuard],
     data: { animation: 'MainLayout'},
     children: [

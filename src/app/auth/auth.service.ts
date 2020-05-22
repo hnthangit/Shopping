@@ -24,6 +24,11 @@ export class AuthService {
      return this.http.get(`${serverUrl}login?username=${username}&password=${password}`);
   }
 
+  clientLogin = (body: any) => {
+    const url = `${serverUrl}clients/login`;
+    return this.http.post(url, body);
+  }
+
   refreshToken = (refresh_token: string) => {
 
     const httpOptions = {

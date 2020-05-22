@@ -12,6 +12,8 @@ import { LoginComponent } from "./component/login/login.component";
 import { PageNotFoundComponent } from "./component/page-not-found/page-not-found.component";
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { ClientModule } from './client-component/client/client.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     MainLayoutModule,
+    ClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
   ],

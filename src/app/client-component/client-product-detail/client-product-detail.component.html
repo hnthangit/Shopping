@@ -1,0 +1,355 @@
+<ng-container *ngIf="product">
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Product Details Page</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
+						<a href="single-product.html">{{product.name}}</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Single Product Area =================-->
+	<div class="product_image_area">
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+					<div>
+						<owl-carousel-o [options]="customOptions" class="s_Product_carousel">
+							<ng-container *ngFor="let image of sortImageArray()">
+								<ng-template carouselSlide>
+									<div class="single-prd-item">
+										<img class="img-fluid" [src]="url+image.image" alt="">
+									</div>
+								</ng-template>
+							</ng-container>
+						</owl-carousel-o>
+					</div>
+
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+						<h3>{{product.name}}</h3>
+						<h2>${{totalPrice | number}}</h2>
+						<ng-container *ngIf='product.productAttributeSet'>
+							<ul class="list" *ngFor="let attribute of productAttributes | keyvalue">							
+								<li>
+									<ng-container *ngFor="let item of listAttributes">
+										<span *ngIf="item.id == attribute.key" class="mr-2">{{item.name}}</span>
+									</ng-container>
+									
+									<div class="default-select" id="default-select">
+										<select nice-select (change)="onChange($event)">
+											<option value='{{0+ attribute.key}}'>Default</option>
+											<ng-container *ngFor="let item of attribute.value">
+												<option value="{{item.id}}">{{item.value}}</option>
+											</ng-container>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</ng-container>
+						<p>{{product.shortDescription}}</p>
+						<div class="product_count">
+							<label for="qty">Quantity:</label>
+							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+								class="input-text qty" value="{{quantity}}">
+							<button (click)="quantity = quantity+1" class="increase items-count" type="button"><i
+									class="lnr lnr-chevron-up"></i></button>
+							<button (click)="quantity==1? quantity: quantity = quantity-1" class="reduced items-count" type="button"><i
+									class="lnr lnr-chevron-down"></i></button>
+						</div>
+						<div class="card_area d-flex align-items-center">
+							<a class="primary-btn" href="javascript:void(0);" (click)="addToCart()">Add to Cart</a>
+							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Single Product Area =================-->
+
+	<!--================Product Description Area =================-->
+	<section class="product_description_area">
+		<div class="container">
+			<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs" id="myTab" role="tablist">
+				<li [ngbNavItem]="1" class="nav-item">
+					<a class="nav-link" ngbNavLink>Description</a>
+					<ng-template ngbNavContent>
+						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+							{{product.fullDescription}}
+						</div>
+					</ng-template>
+				</li>
+				<li [ngbNavItem]="2" class="nav-item">
+					<a class="nav-link" ngbNavLink>Reviews</a>
+					<ng-template ngbNavContent>
+						<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="row total_rate">
+										<div class="col-6">
+											<div class="box_total">
+												<h5>Overall</h5>
+												<h4>4.0</h4>
+												<h6>(03 Reviews)</h6>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="rating_list">
+												<h3>Based on 3 Reviews</h3>
+												<ul class="list">
+													<li><a href="#">5 Star <i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i> 01</a>
+													</li>
+													<li><a href="#">4 Star <i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i> 01</a>
+													</li>
+													<li><a href="#">3 Star <i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i> 01</a>
+													</li>
+													<li><a href="#">2 Star <i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i> 01</a>
+													</li>
+													<li><a href="#">1 Star <i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i><i
+																class="fa fa-star"></i><i class="fa fa-star"></i> 01</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="review_list">
+										<div class="review_item">
+											<div class="media">
+												<div class="d-flex">
+													<img src="img/product/review-1.png" alt="">
+												</div>
+												<div class="media-body">
+													<h4>Blake Ruiz</h4>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+											</div>
+											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+												tempor incididunt ut labore et
+												dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+												ullamco laboris nisi ut aliquip ex ea
+												commodo</p>
+										</div>
+										<div class="review_item">
+											<div class="media">
+												<div class="d-flex">
+													<img src="img/product/review-2.png" alt="">
+												</div>
+												<div class="media-body">
+													<h4>Blake Ruiz</h4>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+											</div>
+											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+												tempor incididunt ut labore et
+												dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+												ullamco laboris nisi ut aliquip ex ea
+												commodo</p>
+										</div>
+										<div class="review_item">
+											<div class="media">
+												<div class="d-flex">
+													<img src="img/product/review-3.png" alt="">
+												</div>
+												<div class="media-body">
+													<h4>Blake Ruiz</h4>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+											</div>
+											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+												tempor incididunt ut labore et
+												dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+												ullamco laboris nisi ut aliquip ex ea
+												commodo</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="review_box">
+										<h4>Add a Review</h4>
+										<p>Your Rating:</p>
+										<ul class="list">
+											<li><a href="#"><i class="fa fa-star"></i></a></li>
+											<li><a href="#"><i class="fa fa-star"></i></a></li>
+											<li><a href="#"><i class="fa fa-star"></i></a></li>
+											<li><a href="#"><i class="fa fa-star"></i></a></li>
+											<li><a href="#"><i class="fa fa-star"></i></a></li>
+										</ul>
+										<p>Outstanding</p>
+										<!-- <form></form> -->
+										<div class="row contact_form" action="contact_process.php" method="post"
+											id="contactForm" novalidate="novalidate">
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" id="name" name="name"
+														placeholder="Your Full name" onfocus="this.placeholder = ''"
+														onblur="this.placeholder = 'Your Full name'">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="email" class="form-control" id="email" name="email"
+														placeholder="Email Address" onfocus="this.placeholder = ''"
+														onblur="this.placeholder = 'Email Address'">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" id="number" name="number"
+														placeholder="Phone Number" onfocus="this.placeholder = ''"
+														onblur="this.placeholder = 'Phone Number'">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<textarea class="form-control" name="message" id="message" rows="1"
+														placeholder="Review" onfocus="this.placeholder = ''"
+														onblur="this.placeholder = 'Review'"></textarea>
+												</div>
+											</div>
+											<div class="col-md-12 text-right">
+												<button type="submit" value="submit" class="primary-btn">Submit
+													Now</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</ng-template>
+				</li>
+			</ul>
+			<div [ngbNavOutlet]="nav" class="tab-content" id="myTabContent">
+
+
+			</div>
+		</div>
+	</section>
+	<!--================End Product Description Area =================-->
+
+	<!-- Start related-product Area -->
+	<section class="related-product-area section_gap_bottom">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title">
+						<h1>Deals of the Week</h1>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+							labore et dolore
+							magna aliqua.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-6">
+					<div class="single-product">
+						<img class="img-fluid" src="assets/client-assets/img/product/p1.jpg" alt="">
+						<div class="product-details">
+							<h6>addidas New Hammer sole
+								for Sports person</h6>
+							<div class="price">
+								<h6>$150.00</h6>
+								<h6 class="l-through">$210.00</h6>
+							</div>
+							<div class="prd-bottom">
+
+								<a href="" class="social-info">
+									<span class="ti-bag"></span>
+									<p class="hover-text">Cart</p>
+								</a>
+								<a href="" class="social-info">
+									<span class="lnr lnr-heart"></span>
+									<p class="hover-text">Wishlist</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- single product -->
+				<div class="col-lg-4 col-md-6">
+					<div class="single-product">
+						<img class="img-fluid" src="assets/client-assets/img/product/p2.jpg" alt="">
+						<div class="product-details">
+							<h6>addidas New Hammer sole
+								for Sports person</h6>
+							<div class="price">
+								<h6>$150.00</h6>
+								<h6 class="l-through">$210.00</h6>
+							</div>
+							<div class="prd-bottom">
+
+								<a href="" class="social-info">
+									<span class="ti-bag"></span>
+									<p class="hover-text">Cart</p>
+								</a>
+								<a href="" class="social-info">
+									<span class="lnr lnr-heart"></span>
+									<p class="hover-text">Wishlist</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- single product -->
+				<div class="col-lg-4 col-md-6">
+					<div class="single-product">
+						<img class="img-fluid" src="assets/client-assets/img/product/p3.jpg" alt="">
+						<div class="product-details">
+							<h6>addidas New Hammer sole
+								for Sports person</h6>
+							<div class="price">
+								<h6>$150.00</h6>
+								<h6 class="l-through">$210.00</h6>
+							</div>
+							<div class="prd-bottom">
+
+								<a href="" class="social-info">
+									<span class="ti-bag"></span>
+									<p class="hover-text">Cart</p>
+								</a>
+								<a href="" class="social-info">
+									<span class="lnr lnr-heart"></span>
+									<p class="hover-text">Wishlist</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End related-product Area -->
+
+</ng-container>

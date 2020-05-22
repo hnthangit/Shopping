@@ -95,4 +95,9 @@ export class ProductService {
     const url = `${serverUrl}products/product-attribute`;
     return this.http.post(url, body);
   }
+
+  getClientProductInfo = (productUrl: string) => {
+    const url = `${serverUrl}clients/products/${productUrl}`;
+    return this.http.get(url);
+  }
 }

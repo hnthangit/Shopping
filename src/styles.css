@@ -9,6 +9,19 @@
 @import "assets/plugins/fontawesome-free/css/all.min.css";
 @import "assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css";
 
+@import "assets/client-assets/linearicons.css";
+@import "assets/client-assets/themify-icons.css";
+/* @import "assets/client-assets/owl.carousel.css"; */
+@import "assets/client-assets/nice-select.css";
+@import "assets/client-assets/nouislider.min.css";
+@import "assets/client-assets/ion.rangeSlider.css";
+/* @import "assets/client-assets/ion.rangeSlider.skinFlat.css"; */
+@import "assets/client-assets/magnific-popup.css";
+@import "assets/client-assets/main.css";
+
+@import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.css';
+@import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.css';
+
 .content-wrapper .content {
     padding: 0 .5rem;
 }

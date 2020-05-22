@@ -15,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSmComponent } from '../../modal-sm/modal-sm.component';
 import { AttributeService } from 'src/app/service/attribute.service';
 import { ProductAttributeComponent } from './product-attribute/product-attribute.component';
+declare var $: any;
 
 @Component({
   selector: 'app-edit-product',
