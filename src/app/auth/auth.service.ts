@@ -20,12 +20,12 @@ export class AuthService {
     // const body = 'client_id=shopping&client_secret=shopping&grant_type=password&' +
     //   'username=' + username + '&password=' + password;
     // return this.http.post(`${serverUrl}oauth/token`, body, httpOptions);
-     //const body = 'username=' + username + '&password=' + password;
-     return this.http.get(`${serverUrl}login?username=${username}&password=${password}`);
+    //const body = 'username=' + username + '&password=' + password;
+    return this.http.get(`${serverUrl}login?username=${username}&password=${password}`);
   }
 
   clientLogin = (body: any) => {
-    const url = `${serverUrl}clients/login`;
+    const url = `${serverUrl}clients/user/login`;
     return this.http.post(url, body);
   }
 
@@ -49,6 +49,14 @@ export class AuthService {
   }
 
   isLoggedIn = () => {
-    return (localStorage.getItem('access_token') === null) ? false : true;
+    return (localStorage.getItem('token') === null) ? false : true;
+  }
+
+  getUserId = () => {
+    if (localStorage.getItem('token') !== null)
+      return localStorage.getItem('token');
+    else if (sessionStorage.getItem('token') !== null)
+      return sessionStorage.getItem('token');
+    else return null;
   }
 }

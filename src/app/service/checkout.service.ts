@@ -29,12 +29,12 @@ export class CheckoutService {
 
     var rawSignature = "partnerCode=" + partnerCode + "&accessKey=" + accessKey + "&requestId=" + requestId + "&amount=" + amount + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&returnUrl=" + returnUrl + "&notifyUrl=" + notifyurl + "&extraData=" + extraData
     //puts raw signature
-    console.log("--------------------RAW SIGNATURE----------------")
-    console.log(rawSignature);
+    // console.log("--------------------RAW SIGNATURE----------------")
+    // console.log(rawSignature);
 
     var signature = CryptoJS.HmacSHA256(rawSignature, serectkey).toString(CryptoJS.enc.Hex);
-    console.log("--------------------SIGNATURE----------------")
-    console.log(signature)
+    // console.log("--------------------SIGNATURE----------------")
+    // console.log(signature)
 
     var body = JSON.stringify({
       partnerCode: partnerCode,

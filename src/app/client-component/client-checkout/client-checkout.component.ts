@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckoutService } from 'src/app/service/checkout.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-client-checkout',
@@ -13,9 +14,13 @@ export class ClientCheckoutComponent implements OnInit {
   public totalPrice;
   public paymentType = 'COD';
 
+  private username;
+
   constructor(
     private checkoutService: CheckoutService,
-  ) { }
+    private authService: AuthService,
+  ) {
+   }
 
   ngOnInit() {
     this.getCartInfo();
@@ -53,7 +58,8 @@ export class ClientCheckoutComponent implements OnInit {
   }
 
   codPayment = () => {
-
+    this.username = this.authService.getUserId();
+    
   }
 
   momoPayment = () => {
