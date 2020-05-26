@@ -12,6 +12,7 @@ import { ClientWishlistComponent } from '../client-wishlist/client-wishlist.comp
 import { ClientOrderHistoryComponent } from '../client-order-history/client-order-history.component';
 import { ClientProfileComponent } from '../client-profile/client-profile.component';
 import { ClientLoginComponent } from '../client-login/client-login.component';
+import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify-order.component';
 
 
 const routes: Routes = [
@@ -43,13 +44,16 @@ const routes: Routes = [
         path: 'wishlist', component: ClientWishlistComponent,
       },
       {
-        path: 'order', component: ClientOrderHistoryComponent,
+        path: 'order-history', component: ClientOrderHistoryComponent,
       },
       {
         path: 'profile', component: ClientProfileComponent,
       },
       {
         path: 'login', component: ClientLoginComponent,
+      },
+      {
+        path: 'verify', component: ClientVerifyOrderComponent,
       },
 
     ]

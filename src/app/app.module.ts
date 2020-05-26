@@ -19,7 +19,7 @@ import { ClientModule } from './client-component/client/client.module';
     AppComponent,
     SwaggerComponent,
     LoginComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

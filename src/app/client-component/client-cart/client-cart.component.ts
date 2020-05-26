@@ -19,10 +19,6 @@ export class ClientCartComponent implements OnInit {
     private cartService: CartService,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.activatedRoute.queryParams.subscribe(params => {
-      let date = params['errorCode'];
-      console.log(date); // Print the parameter to the console. 
-  });
    }
 
   ngOnInit() {
@@ -57,11 +53,14 @@ export class ClientCartComponent implements OnInit {
   caculateTotalPrice = () => {
     this.cart = JSON.parse(localStorage.getItem('cart'));
     let temp = 0;
-    this.cart.forEach(element => {
-      temp+= element.price * element.quantity
-    });
+    if(this.cart!=null){
+      this.cart.forEach(element => {
+        temp+= element.price * element.quantity
+      });
+  
+      this.totalPrice = temp;
+    }
 
-    this.totalPrice = temp;
   }
 
 }

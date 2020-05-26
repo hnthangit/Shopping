@@ -21,6 +21,7 @@ import { ClientProfileComponent } from '../client-profile/client-profile.compone
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NiceSelectModule } from "ng-nice-select";
 import { ReactiveFormsModule } from '@angular/forms';
+import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify-order.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ClientWishlistComponent,
     ClientProductDetailComponent,
     ClientOrderHistoryComponent,
-    ClientProfileComponent
+    ClientProfileComponent,
+    ClientVerifyOrderComponent,
   ],
   imports: [
     CommonModule,

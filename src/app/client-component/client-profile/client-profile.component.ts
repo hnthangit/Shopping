@@ -115,6 +115,10 @@ export class ClientProfileComponent implements OnInit {
       response => {
         this.loadingUpdateInfo = false;
         this.updateInfoSuccess = true;
+        this.infoForm.patchValue({
+          password: '',
+          repassword: '',
+        })
       }
     )
   }

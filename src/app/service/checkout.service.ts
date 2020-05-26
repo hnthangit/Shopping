@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { serverUrl } from '../constant/constant';
+import { serverUrl, clientUrl } from '../constant/constant';
 import { HttpClient } from '@angular/common/http';
 import * as CryptoJS from 'crypto-js';
-//import CryptoJS = require('crypto-js');
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class CheckoutService {
 
   constructor(private http: HttpClient) { }
 
-  payment = (): any => {
+  momoPayment = (id: number, totalPrice: number): any => {
 
     var url = "https://test-payment.momo.vn/gw_payment/transactionProcessor"
     var path = "/gw_payment/transactionProcessor"
@@ -19,11 +18,11 @@ export class CheckoutService {
     var accessKey = "w8iSLnvJJMuwLkbU"
     var serectkey = "tUUxP1iaCdHS50OskVmEapOsbxYfaHjT"
     var orderInfo = "Pay with MoMo"
-    var returnUrl = "http://localhost:4200/client/cart"
-    var notifyurl = "http://localhost:4200/client/cart"
-    var amount = "10000"
-    var orderId = "-88"
-    var requestId = "0";
+    var returnUrl = `${clientUrl}client/verify`
+    var notifyurl = `${clientUrl}client/verify`
+    var amount = totalPrice.toString();
+    var orderId = id.toString();
+    var requestId = "1";
     var requestType = "captureMoMoWallet"
     var extraData = "";
 
@@ -51,4 +50,26 @@ export class CheckoutService {
     })
     return this.http.post(url, body);
   }
+
+  addOrder = (body: any) => {
+    const url = `${serverUrl}clients/payment`;
+    return this.http.post(url, body);
+  }
+
+  addOrderDetail = (body: any) => {
+    const url = `${serverUrl}clients/payment/order-detail`;
+    return this.http.post(url, body);
+  }
+
+  updateMomoPaymentStatusSuccess = (id: number) => {
+    const url = `${serverUrl}clients/payment/update-order-success/${id}`;
+    return this.http.post(url, null);
+  }
+
+  updateMomoPaymentStatusFail = (id: number) => {
+    const url = `${serverUrl}clients/payment/update-order-fail/${id}`;
+    return this.http.post(url, null);
+  }
+
+
 }
