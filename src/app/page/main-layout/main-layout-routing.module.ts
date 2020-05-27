@@ -11,6 +11,7 @@ import { AddCategoryComponent } from 'src/app/component/category/add-category/ad
 import { EditManufacturerComponent } from 'src/app/component/manufacturer/edit-manufacturer/edit-manufacturer.component';
 import { EditProductComponent } from 'src/app/component/product/edit-product/edit-product.component';
 import { AuthGuard } from 'src/app/auth/auth.guard';
+import { OrderComponent } from 'src/app/component/order/order.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,28 @@ const routes: Routes = [
             path: '',
             data: { animation: 'MainLayout'},
             component: ShowCategoryComponent,
+          },
+          {
+            path: 'add',
+            data: { animation: 'MainLayout'},
+            component: AddCategoryComponent,
+          },
+          {
+            path: 'edit',
+            data: { animation: 'MainLayout'},
+            component: AddCategoryComponent,
+          },
+        ]
+      },
+      {
+        path: 'orders',
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: '',
+            data: { animation: 'MainLayout'},
+            component: OrderComponent,
           },
           {
             path: 'add',

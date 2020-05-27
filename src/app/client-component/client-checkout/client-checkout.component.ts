@@ -5,6 +5,7 @@ import { UserService } from 'src/app/service/user.service';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
+import { serverUrl } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-client-checkout',
@@ -14,7 +15,7 @@ import { CartService } from 'src/app/service/cart.service';
 export class ClientCheckoutComponent implements OnInit {
 
   public cart = null;
-  public url = "http://localhost:8080/shopping/images/";
+  public url = `${serverUrl}images/`;
   public totalPrice;
   public paymentType = 'COD';
   public flagNoAddress: boolean = false;
@@ -47,7 +48,7 @@ export class ClientCheckoutComponent implements OnInit {
   orderForm = this.fb.group({
     id: 0,
     address: [''],
-    date: [''],
+    //date: [''],
     paymentMethod: [''],
     deliveryStatus: ['PENDING'],
     paymentStatus: ['PENDING'],
@@ -93,12 +94,6 @@ export class ClientCheckoutComponent implements OnInit {
     return orderDetails;
   }
 
-  payment = () => {
-
-  }
-
-
-
   getCartInfo = () => {
     this.cart = JSON.parse(localStorage.getItem('cart'));
   }
@@ -137,17 +132,17 @@ export class ClientCheckoutComponent implements OnInit {
     this.canSelectAddress = true;
     this.canClick = true;
     this.isOrdering = true;
-    this.orderForm.patchValue({
-      date: new Date(),
-    })
+    // this.orderForm.patchValue({
+    //   date: new Date(),
+    // })
 
     this.checkoutService.addOrder(this.orderForm.value).subscribe(
-      response => {
-        //console.log(response['data']);
-        let array = this.createOrderDetail(response['data']);
+      addOderResponse => {
+        //console.log(addOderResponse['data']);
+        let array = this.createOrderDetail(addOderResponse['data']);
         //console.log(array);
         this.checkoutService.addOrderDetail(array).subscribe(
-          response => {
+          addOderDetail => {
             this.cartService.removeItem('cart');
             //console.log(response['data']);
             this.isOrdering = false
@@ -163,9 +158,9 @@ export class ClientCheckoutComponent implements OnInit {
     this.canSelectAddress = true;
     this.canClick = true;
     this.isOrdering = true;
-    this.orderForm.patchValue({
-      date: new Date(),
-    })
+    // this.orderForm.patchValue({
+    //   date: new Date(),
+    // })
 
     this.checkoutService.addOrder(this.orderForm.value).subscribe(
       addOderResponse => {

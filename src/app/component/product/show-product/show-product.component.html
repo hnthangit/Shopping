@@ -17,74 +17,76 @@
 
 <!-- Main content -->
 <section class="content">
-  <div class="card collapsed-card">
+  <div class="card">
     <div class="card-header">
       <h5 class="card-title">Search Bar</h5>
       <div class="card-tools">
-        <button class="btn btn-tool" type="button" data-card-widget="collapse">
+        <button class="btn btn-tool" type="button" (click)="showSearchBar = !showSearchBar">
           <i class="fas fa-minus"></i>
         </button>
       </div>
     </div>
     <ng-container *ngIf="manufacturers">
-      <div class="card-body">
-        <!-- <p>
-          Form Value: {{ productForm.value | json }}
-        </p> -->
-        <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm.value)">
-          <div class="form-row mb-2">
-            <div class="col-3">
-              <label>Name</label>
-              <input type="text" formControlName="name" class="form-control">
+      <ng-container *ngIf="showSearchBar == true">
+        <div class="card-body">
+          <!-- <p>
+      Form Value: {{ productForm.value | json }}
+    </p> -->
+          <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm.value)">
+            <div class="form-row mb-2">
+              <div class="col-3">
+                <label>Name</label>
+                <input type="text" formControlName="name" class="form-control">
+              </div>
+              <div class="col-3">
+                <label>Manufacturer</label>
+                <select formControlName="manufacturerId" id="cars" class="form-control">
+                  <option value="0">All</option>
+                  <option *ngFor="let manufacturer of manufacturers" value={{manufacturer.id}}>{{manufacturer.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-3">
+                <label>Price From</label>
+                <input type="text" formControlName="priceFrom" class="form-control">
+                <ng-container
+                  *ngIf="productForm.controls.priceFrom.invalid && (productForm.controls.priceFrom.dirty || productForm.controls.priceFrom.touched)">
+                  <small class="text-danger" *ngIf="productForm.controls.priceFrom.errors.pattern">
+                    Check number
+                  </small>
+                </ng-container>
+                <ng-container *ngIf="productForm.errors?.invalidPrice && (productForm.touched || productForm.dirty)">
+                  <small class="text-danger">
+                    PriceTo >= PriceFrom
+                  </small>
+                </ng-container>
+              </div>
+              <div class="col-3">
+                <label>Price To</label>
+                <input type="text" formControlName="priceTo" class="form-control">
+                <ng-container
+                  *ngIf="productForm.controls.priceTo.invalid && (productForm.controls.priceTo.dirty || productForm.controls.priceTo.touched)">
+                  <small class="text-danger" *ngIf="productForm.controls.priceTo.errors.pattern">
+                    Check number
+                  </small>
+                </ng-container>
+                <ng-container *ngIf="productForm.errors?.invalidPrice && (productForm.touched || productForm.dirty)">
+                  <small class="text-danger">
+                    PriceTo >= PriceFrom
+                  </small>
+                </ng-container>
+              </div>
             </div>
-            <div class="col-3">
-              <label>Manufacturer</label>
-              <select formControlName="manufacturerId" id="cars" class="form-control">
-                <option value="0">All</option>
-                <option *ngFor="let manufacturer of manufacturers" value={{manufacturer.id}}>{{manufacturer.name}}
-                </option>
-              </select>
-            </div>
-            <div class="col-3">
-              <label>Price From</label>
-              <input type="text" formControlName="priceFrom" class="form-control">
-              <ng-container
-                *ngIf="productForm.controls.priceFrom.invalid && (productForm.controls.priceFrom.dirty || productForm.controls.priceFrom.touched)">
-                <small class="text-danger" *ngIf="productForm.controls.priceFrom.errors.pattern">
-                  Check number
-                </small>
-              </ng-container>
-              <ng-container *ngIf="productForm.errors?.invalidPrice && (productForm.touched || productForm.dirty)">
-                <small class="text-danger">
-                  PriceTo >= PriceFrom
-                </small>
-              </ng-container>
-            </div>
-            <div class="col-3">
-              <label>Price To</label>
-              <input type="text" formControlName="priceTo" class="form-control">
-              <ng-container
-                *ngIf="productForm.controls.priceTo.invalid && (productForm.controls.priceTo.dirty || productForm.controls.priceTo.touched)">
-                <small class="text-danger" *ngIf="productForm.controls.priceTo.errors.pattern">
-                  Check number
-                </small>
-              </ng-container>
-              <ng-container *ngIf="productForm.errors?.invalidPrice && (productForm.touched || productForm.dirty)">
-                <small class="text-danger">
-                  PriceTo >= PriceFrom
-                </small>
-              </ng-container>
-            </div>
-          </div>
-          <div class="card-footer mt-2 d-flex justify-content-center">
+            <div class="card-footer mt-2 d-flex justify-content-center">
 
-            <button type="submit" class="btn btn-lg btn-success mr-2" [disabled]="!productForm.valid"><i
-                class="fas fa-search"></i> Search</button>
-            <button class="btn btn-lg btn-info" (click)="resetForm()"><i class="fas fa-brush"></i> Clear all
-              field</button>
-          </div>
-        </form>
-      </div>
+              <button type="submit" class="btn btn-lg btn-success mr-2" [disabled]="!productForm.valid"><i
+                  class="fas fa-search"></i> Search</button>
+              <button class="btn btn-lg btn-info" (click)="resetForm()"><i class="fas fa-brush"></i> Clear all
+                field</button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
     </ng-container>
 
   </div>
@@ -119,11 +121,11 @@
           </ng-container>
 
           Image Column
-            <ng-container cdkColumnDef="image">
-              <th cdk-header-cell *cdkHeaderCellDef> Image. </th>
-              <td cdk-cell *matCellDef="let products"> 
-                <img style="width: 50px; height: 50px;" [src]="url+products.image" alt=""></td>
-            </ng-container>
+          <ng-container cdkColumnDef="image">
+            <th cdk-header-cell *cdkHeaderCellDef> Image. </th>
+            <td cdk-cell *matCellDef="let products">
+              <img style="width: 50px; height: 50px;" [src]="url+products.image" alt=""></td>
+          </ng-container>
 
           <!-- Name Column -->
           <ng-container cdkColumnDef="name">
@@ -160,15 +162,8 @@
       </ng-container>
       <!-- <app-paginator [currentPage]="currentPage" [totalPage]="totalPage" (pageChanged)="onPageChanged($event)"></app-paginator> -->
       {{currentPage}}
-      <ngb-pagination
-      [(page)]="currentPageDisplay"
-      [pageSize]="entries"
-      [maxSize]="3"
-      [rotate]="true" 
-      [boundaryLinks]="true"
-      [collectionSize]="collectionSize"
-      (pageChange)="onPageChanged($event)"
-      ></ngb-pagination>
+      <ngb-pagination [(page)]="currentPageDisplay" [pageSize]="entries" [maxSize]="3" [rotate]="true"
+        [boundaryLinks]="true" [collectionSize]="collectionSize" (pageChange)="onPageChanged($event)"></ngb-pagination>
     </div>
   </div>
 </section>

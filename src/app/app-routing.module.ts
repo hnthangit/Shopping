@@ -8,7 +8,7 @@ import { ClientIndexComponent } from './client-component/client-index/client-ind
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/client/product', pathMatch: 'full'},
+  { path: '', redirectTo: '/client/category', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'swagger', component: SwaggerComponent },
   { path: '**', component: PageNotFoundComponent}

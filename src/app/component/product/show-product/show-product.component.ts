@@ -7,6 +7,7 @@ import { manufacturer } from 'src/app/model/manufacturer';
 import { ToastrService } from 'ngx-toastr';
 import { PaginatorComponent } from '../../paginator/paginator.component';
 import { PaginationInstance } from 'ngx-pagination';
+import { serverUrl } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-show-product',
@@ -24,8 +25,9 @@ export class ShowProductComponent implements OnInit {
   public currentPage: number;
   public currentPageDisplay: number = 1;
   public entries: number;
-  public url = "http://localhost:8080/shopping/images/";
+  public url = `${serverUrl}images/`;
   public collectionSize: number;
+  public showSearchBar: boolean = false;
 
   constructor(private productService: ProductService, private fb: FormBuilder, private manufacturerService: ManufacturerService, private toastr: ToastrService) { }
 

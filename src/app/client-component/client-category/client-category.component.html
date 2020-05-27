@@ -159,7 +159,10 @@
 					<div class="common-filter">
 						<div class="head">Price</div>
 						<div class="price-range-area">
-							<div id="price-range"></div>
+							<div ></div>
+							<form [formGroup]="form1">
+								<nouislider id="price-range" [min]="0" [max]="15" [step]="1" [formControl]="form1.controls.single"></nouislider>
+							  </form>
 							<div class="value-wrapper d-flex">
 								<div class="price">Price:</div>
 								<span>$</span>
@@ -177,16 +180,15 @@
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting">
 						<select>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
+							<option value="1">Default name</option>
+							<option value="1">Newest</option>
 						</select>
 					</div>
 					<div class="sorting mr-auto">
 						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
+							<option value="12">Show 12</option>
+							<option value="24">Show 24</option>
+							<option value="48">Show 48</option>
 						</select>
 					</div>
 					<div>
@@ -200,7 +202,7 @@
 						<!-- single product -->
 						<div class="col-lg-4 col-md-6">
 							<div class="single-product">
-								<img class="img-fluid" src="img/product/p1.jpg" alt="">
+								<img class="img-fluid" src="assets/client-assets/img/product/p1.jpg" alt="">
 								<div class="product-details">
 									<h6>addidas New Hammer sole
 										for Sports person</h6>
@@ -233,7 +235,7 @@
 						<!-- single product -->
 						<div class="col-lg-4 col-md-6">
 							<div class="single-product">
-								<img class="img-fluid" src="img/product/p2.jpg" alt="">
+								<img class="img-fluid" src="assets/client-assets/img/product/p2.jpg" alt="">
 								<div class="product-details">
 									<h6>addidas New Hammer sole
 										for Sports person</h6>
@@ -266,7 +268,7 @@
 						<!-- single product -->
 						<div class="col-lg-4 col-md-6">
 							<div class="single-product">
-								<img class="img-fluid" src="img/product/p3.jpg" alt="">
+								<img class="img-fluid" src="assets/client-assets/img/product/p3.jpg" alt="">
 								<div class="product-details">
 									<h6>addidas New Hammer sole
 										for Sports person</h6>
@@ -299,7 +301,7 @@
 						<!-- single product -->
 						<div class="col-lg-4 col-md-6">
 							<div class="single-product">
-								<img class="img-fluid" src="img/product/p4.jpg" alt="">
+								<img class="img-fluid" src="assets/client-assets/img/product/p4.jpg" alt="">
 								<div class="product-details">
 									<h6>addidas New Hammer sole
 										for Sports person</h6>

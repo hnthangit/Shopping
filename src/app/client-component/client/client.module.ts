@@ -22,6 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NiceSelectModule } from "ng-nice-select";
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify-order.component';
+import { NouisliderModule } from 'ng2-nouislider';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify
     CarouselModule,
     NgbModule,
     NiceSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NouisliderModule,
   ]
 })
 export class ClientModule { }

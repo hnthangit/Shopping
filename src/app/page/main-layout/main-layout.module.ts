@@ -28,6 +28,8 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalSmComponent } from 'src/app/component/modal-sm/modal-sm.component';
 import { ProductAttributeComponent } from 'src/app/component/product/edit-product/product-attribute/product-attribute.component';
+import { OrderComponent } from 'src/app/component/order/order.component';
+import { ViewOrderComponent } from 'src/app/component/order/view-order/view-order.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ProductAttributeComponent } from 'src/app/component/product/edit-produc
     PaginatorComponent,
     ProductAttributeComponent,
     ModalSmComponent,
+    OrderComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +67,7 @@ import { ProductAttributeComponent } from 'src/app/component/product/edit-produc
   entryComponents:[
     ModalSmComponent,
     ProductAttributeComponent,
+    ViewOrderComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }

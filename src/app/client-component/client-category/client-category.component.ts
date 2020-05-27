@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 declare var $: any;
 
 @Component({
@@ -10,10 +11,12 @@ export class ClientCategoryComponent implements OnInit {
 
   public isCollapsed = false;
 
-  
+  public someRange=[6, 7];
   public page = 20;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder,
+  ) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -64,33 +67,17 @@ export class ClientCategoryComponent implements OnInit {
         }
       });
 
-    //   $(document).ready(function() {
-    //       $('#mc_embed_signup').find('form').ajaxChimp();
-    //   });   
-
-    //     $('.quick-view-carousel-details').owlCarousel({
-    //         loop: true,
-    //         dots: true,
-    //         items: 1,
-    //     })
- 
-    //   //-------- Have Cupon Button Text Toggle Change -------//
-  
-    //   $('.have-btn').on('click', function(e){
-    //       e.preventDefault();
-    //       $('.have-btn span').text(function(i, text){
-    //         return text === "Have a Coupon?" ? "Close Coupon" : "Have a Coupon?";
-    //       })
-    //       $('.cupon-code').fadeToggle("slow");
-    //   });
-  
-    //   $('.load-more-btn').on('click', function(e){
-    //       e.preventDefault();
-    //       $('.load-product').fadeIn('slow');
-    //       $(this).fadeOut();
-    //   });
 
    });
+  }
+
+  form1 = this.fb.group({
+    single: [[ 2, 8 ]],
+  })
+  
+
+  onChange= ($event) => {
+    console.log($event.target.value);
   }
 
 }

@@ -13,4 +13,36 @@ export class OrderService {
     const url = `${serverUrl}clients/order`;
     return this.http.post(url, body);
   }
+
+  getOrderHistory = (username: string) => {
+    const url = `${serverUrl}clients/order/${username}`;
+    return this.http.get(url);
+  }
+
+  getOrderDetail = (orderId: number) => {
+    const url = `${serverUrl}clients/order/order-detail/${orderId}`;
+    return this.http.get(url);
+  }
+
+  getAllOrders = (pageNumber: number, size: number, address: string, paymentMethod: string, deliveryStatus: string, paymentStatus: string): any => {
+    let url = `${serverUrl}orders?page=${pageNumber}&size=${size}`;
+    if (address != '') {
+      url = url.concat(`&address=${address}`);
+    }
+    if (paymentMethod != '') {
+      url = url.concat(`&paymentMethod=${paymentMethod}`);
+    }
+    if (deliveryStatus != '') {
+      url = url.concat(`&deliveryStatus=${deliveryStatus}`);
+    }
+    if (paymentStatus != '') {
+      url = url.concat(`&paymentStatus=${paymentStatus}`);
+    }
+    return this.http.get(url);
+  }
+  
+  confirmPayment = (orderId: number) => {
+    const url = `${serverUrl}/orders/confirm/${orderId}`;
+    return this.http.get(url);
+  }
 }
