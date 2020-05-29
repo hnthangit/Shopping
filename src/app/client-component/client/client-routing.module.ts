@@ -23,7 +23,7 @@ const routes: Routes = [
         path: 'index', component: ClientIndexComponent,
       },
       {
-        path: 'category', component: ClientCategoryComponent,
+        path: 'category/:url', component: ClientCategoryComponent,
       },
       {
         path: 'product/:url', component: ClientProductDetailComponent,

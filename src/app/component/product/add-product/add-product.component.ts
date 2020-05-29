@@ -18,7 +18,7 @@ import { FileService } from 'src/app/service/file.service';
 export class AddProductComponent implements OnInit {
 
   public manufacturers: manufacturer[];
-  public categories: category[];
+  public categories = [];
   public selectedFile;
   private formData = new FormData();
   private params = new HttpParams();

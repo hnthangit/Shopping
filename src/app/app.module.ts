@@ -13,7 +13,6 @@ import { PageNotFoundComponent } from "./component/page-not-found/page-not-found
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ClientModule } from './client-component/client/client.module';
-import { ViewOrderComponent } from './component/order/view-order/view-order.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { ViewOrderComponent } from './component/order/view-order/view-order.comp
     SwaggerComponent,
     LoginComponent,
     PageNotFoundComponent,
-    ViewOrderComponent,
   ],
   imports: [
     BrowserModule,

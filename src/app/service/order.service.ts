@@ -45,4 +45,9 @@ export class OrderService {
     const url = `${serverUrl}/orders/confirm/${orderId}`;
     return this.http.get(url);
   }
+
+  cancelOrder = (orderId: number) => {
+    const url = `${serverUrl}/orders/cancel/${orderId}`;
+    return this.http.get(url);
+  }
 }

@@ -104,8 +104,8 @@ export class OrderComponent implements OnInit {
           this.selectedOrder = Object.assign({}, result);
           this.orders.forEach(element => {
             if (element.id == this.selectedOrder.id){
-              element.deliveryStatus = "COMPLETED";
-              element.paymentStatus = "SUCCESS";
+              element.deliveryStatus = this.selectedOrder.deliveryStatus;
+              element.paymentStatus = this.selectedOrder.paymentStatus;
             }               
           });
         }

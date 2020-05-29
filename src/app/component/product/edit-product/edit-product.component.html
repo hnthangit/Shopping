@@ -143,13 +143,13 @@
               <ng-container
                 *ngIf="productSeoForm.controls.url.invalid && (productSeoForm.controls.url.dirty || productSeoForm.controls.url.touched)">
                 <small class="text-danger" *ngIf="productSeoForm.controls.url.errors.required">
-                  Name required
+                  Url required
                 </small>
                 <small class="text-danger" *ngIf="productSeoForm.controls.url.errors?.invalidUrl">
-                  Name have -, text, number
+                  Url have -, text, number
                 </small>
                 <small class="text-danger" *ngIf="productSeoForm.controls.url.errors.pattern">
-                  Name have -, text, number
+                  Url have -, text, number
                 </small>
               </ng-container>
               <ng-container *ngIf="(productSeoForm.controls.url.dirty || productSeoForm.controls.url.touched)">

@@ -46,4 +46,15 @@ export class ViewOrderComponent implements OnInit {
     )
   }
 
+  cancelOrder = (orderId: number) => {
+    this.orderService.cancelOrder(orderId).subscribe(
+      response => {
+        this.selectedOrder.deliveryStatus = response['data'].deliveryStatus;
+        this.selectedOrder.paymentStatus = response['data'].paymentStatus;
+      }
+    )
+  }
+
+
+
 }

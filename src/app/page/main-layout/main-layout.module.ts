@@ -10,7 +10,6 @@ import { ShowProductComponent } from "src/app/component/product/show-product/sho
 import { AddProductComponent } from "src/app/component/product/add-product/add-product.component";
 import { EditProductComponent } from 'src/app/component/product/edit-product/edit-product.component';
 import { ShowCategoryComponent } from "src/app/component/category/show-category/show-category.component";
-import { AddCategoryComponent } from "src/app/component/category/add-category/add-category.component";
 import { ShowPostComponent } from "src/app/component/post/show-post/show-post.component";
 import { AddPostComponent } from "src/app/component/post/add-post/add-post.component";
 import { PaginatorComponent } from 'src/app/component/paginator/paginator.component';
@@ -30,6 +29,7 @@ import { ModalSmComponent } from 'src/app/component/modal-sm/modal-sm.component'
 import { ProductAttributeComponent } from 'src/app/component/product/edit-product/product-attribute/product-attribute.component';
 import { OrderComponent } from 'src/app/component/order/order.component';
 import { ViewOrderComponent } from 'src/app/component/order/view-order/view-order.component';
+import { AddCategoryComponent } from 'src/app/component/category/show-category/add-category/add-category.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { ViewOrderComponent } from 'src/app/component/order/view-order/view-orde
     AddProductComponent,
     EditProductComponent,
     ShowCategoryComponent,
-    AddCategoryComponent,
     ShowPostComponent,
     AddPostComponent,
     MainLayoutComponent,
@@ -51,6 +50,8 @@ import { ViewOrderComponent } from 'src/app/component/order/view-order/view-orde
     ProductAttributeComponent,
     ModalSmComponent,
     OrderComponent,
+    ViewOrderComponent,
+    AddCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -68,6 +69,7 @@ import { ViewOrderComponent } from 'src/app/component/order/view-order/view-orde
     ModalSmComponent,
     ProductAttributeComponent,
     ViewOrderComponent,
+    AddCategoryComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
