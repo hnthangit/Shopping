@@ -82,7 +82,7 @@ export class AddCategoryComponent implements OnInit {
   }
   checkIsParent = ($event) => {
     if($event.target.value==""){
-      console.log('xinchao');
+      //console.log('xinchao');
       this.isParent = true;
       this.categoryForm.controls.url.setValidators([Validators.required, Validators.pattern('^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$')]);
       this.categoryForm.controls.url.setAsyncValidators([this.isUrlExist(this.categoryService)]);

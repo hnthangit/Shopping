@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ClientCategoryService } from 'src/app/service/client-category.service';
 import { serverUrl } from 'src/app/constant/constant';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from 'src/app/service/product.service';
 declare var $: any;
 
 @Component({
@@ -15,7 +17,6 @@ export class ClientCategoryComponent implements OnInit {
   public products = [];
   public category = [];
   public manufacturer = [];
-  public someRange=[6, 7];
 
   public totalPage: number;
   public currentPage: number;
@@ -28,83 +29,141 @@ export class ClientCategoryComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private clientCategoryService: ClientCategoryService,
+    private productService: ProductService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    $(document).ready(function(){
-  
-    //   //--------- Accordion Icon Change ---------//
-  
-    //   $('.collapse').on('shown.bs.collapse', function(){
-    //       $(this).parent().find(".lnr-arrow-right").removeClass("lnr-arrow-right").addClass("lnr-arrow-left");
-    //   }).on('hidden.bs.collapse', function(){
-    //       $(this).parent().find(".lnr-arrow-left").removeClass("lnr-arrow-left").addClass("lnr-arrow-right");
-    //   });
-  
-    // // Select all links with hashes
-    // $('.main-menubar a[href*="#"]')
-    //   // Remove links that don't actually link to anything
-    //   .not('[href="#"]')
-    //   .not('[href="#0"]')
-    //   .click(function(event) {
-    //     // On-page links
-    //     if (
-    //       location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
-    //       && 
-    //       location.hostname == this.hostname
-    //     ) {
-    //       // Figure out element to scroll to
-    //       var target = $(this.hash);
-    //       target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-    //       // Does a scroll target exist?
-    //       if (target.length) {
-    //         // Only prevent default if animation is actually gonna happen
-    //         event.preventDefault();
-    //         $('html, body').animate({
-    //           scrollTop: target.offset().top-70
-    //         }, 1000, function() {
-    //           // Callback after animation
-    //           // Must change focus!
-    //           var $target = $(target);
-    //           $target.focus();
-    //           if ($target.is(":focus")) { // Checking if the target was focused
-    //             return false;
-    //           } else {
-    //             $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
-    //             $target.focus(); // Set focus again
-    //           };
-    //         });
-    //       }
-    //     }
-    //   });
+    this.getSideBarInfo();
+    $(document).ready(function () {
+
+      //   //--------- Accordion Icon Change ---------//
+
+      //   $('.collapse').on('shown.bs.collapse', function(){
+      //       $(this).parent().find(".lnr-arrow-right").removeClass("lnr-arrow-right").addClass("lnr-arrow-left");
+      //   }).on('hidden.bs.collapse', function(){
+      //       $(this).parent().find(".lnr-arrow-left").removeClass("lnr-arrow-left").addClass("lnr-arrow-right");
+      //   });
+
+      // // Select all links with hashes
+      // $('.main-menubar a[href*="#"]')
+      //   // Remove links that don't actually link to anything
+      //   .not('[href="#"]')
+      //   .not('[href="#0"]')
+      //   .click(function(event) {
+      //     // On-page links
+      //     if (
+      //       location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+      //       && 
+      //       location.hostname == this.hostname
+      //     ) {
+      //       // Figure out element to scroll to
+      //       var target = $(this.hash);
+      //       target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      //       // Does a scroll target exist?
+      //       if (target.length) {
+      //         // Only prevent default if animation is actually gonna happen
+      //         event.preventDefault();
+      //         $('html, body').animate({
+      //           scrollTop: target.offset().top-70
+      //         }, 1000, function() {
+      //           // Callback after animation
+      //           // Must change focus!
+      //           var $target = $(target);
+      //           $target.focus();
+      //           if ($target.is(":focus")) { // Checking if the target was focused
+      //             return false;
+      //           } else {
+      //             $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+      //             $target.focus(); // Set focus again
+      //           };
+      //         });
+      //       }
+      //     }
+      //   });
 
 
-   });
-   this.entries = 12;
-   this.getAllProductsInit(1, 12, '', 0, 0, 0, 0, 0);
+    });
+    this.entries = 12;
+    this.getAllProductsInit(1, 12, '', 0, 0, 0, 0, 0);
   }
 
-  form1 = this.fb.group({
-    single: [[ 0, 100 ]],
+  priceForm = this.fb.group({
+    single: [[1, 100]],
   })
 
   productForm = this.fb.group({
     name: [''],
     priceFrom: [''],
     priceTo: [''],
-    manufacturerId: [0],
-    categoryId: [0],
-    sortBy: [0],
+    manufacturerId: 0,
+    categoryId: 0,
+    sortBy: 0,
   });
-  
 
-  onChange= ($event) => {
+
+  onChange = ($event) => {
     console.log($event.target.value);
   }
 
   logForm1 = () => {
-    console.log(this.form1.value)
+    console.log(this.priceForm.value)
   }
+
+  searchProductInCategory = () => {
+    let priceFrom = this.priceForm.controls.single.value[0]*1000;
+    let priceTo = this.priceForm.controls.single.value[1]*1000;
+    this.getAllProductsInit(1, this.entries, this.productForm.value.name, priceFrom, priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+  }
+
+  onTextChange = ($event) => {
+    this.productForm.patchValue({
+      name: $event.target.value,
+    })
+  }
+
+  changeCategoryInfo = ($event, categoryId: number) => {
+    console.log($event);
+    console.log(categoryId);
+    if (categoryId == this.productForm.controls.categoryId.value) {
+      $event.target.classList.remove('category-clicked');
+      this.productForm.patchValue({
+        categoryId: 0,
+      })
+      this.getAllProductsInit(1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+    } else {
+      var lights = document.getElementsByClassName("category-clicked");
+      while (lights.length) {
+        lights[0].className = lights[0].className.replace(/\bcategory-clicked\b/g, "");
+      }
+
+      $event.target.classList.add("category-clicked");
+      this.productForm.patchValue({
+        categoryId: categoryId,
+      })
+      this.getAllProductsInit(1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+    }
+  }
+
+  changeManufacturerInfo = ($event) => {
+    let manufacturerId = $event.target.value;
+    if (manufacturerId == this.productForm.controls.manufacturerId.value) {
+      $event.target.checked = false;
+      this.productForm.patchValue({
+        manufacturerId: 0,
+      })
+
+    } else {
+      this.productForm.patchValue({
+        manufacturerId: manufacturerId,
+      })
+    }
+  }
+
+  // resetRadio = (manufacturerId: number) => {
+
+  // }
 
   onSortChange = ($event) => {
     //console.log($event.target.value);
@@ -112,7 +171,13 @@ export class ClientCategoryComponent implements OnInit {
       sortBy: $event.target.value
     })
 
-    this.getAllProducts(0, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+    this.clientCategoryService.getAllProducts(0, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy).subscribe(response => {
+      this.products = response.data.list;
+      this.totalPage = response.data.totalPage;
+      this.currentPage = response.data.currentPage;
+      this.currentPageDisplay = this.currentPage + 1;
+      this.collectionSize = this.entries * this.totalPage;
+    });
   }
 
   onEntriesChange = ($event) => {
@@ -121,13 +186,13 @@ export class ClientCategoryComponent implements OnInit {
       this.products = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
-      this.currentPageDisplay = this.currentPage+1;
-    });;
+      this.currentPageDisplay = this.currentPage + 1;
+    });
   }
 
   onPageChanged = (pageNumber: number) => {
     //console.log("gia tri la"+pageNumber);
-    this.getAllProducts(pageNumber-1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+    this.getAllProducts(pageNumber - 1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
   }
 
   getAllProducts = (pageNumber: number, size: number, productName: string, priceFrom: number, priceTo: number, manufacturerId: number, categoryId: number, sortBy: number): any => {
@@ -147,4 +212,20 @@ export class ClientCategoryComponent implements OnInit {
       //this.paginator.createListPage(0, this.totalPage);
     });
   }
+
+  getSideBarInfo = () => {
+    const url = this.activatedRoute.snapshot.paramMap.get('url');
+    this.productService.getClientCategoryPageInfo(url).subscribe(
+      response => {
+        if(response['data']!=null){
+          this.category = response['data'].categoryList;
+          this.manufacturer = response['data'].manufacturerList;
+        } else {
+          this.router.navigate(['/client/wild-card'])
+        }
+        
+      }
+    )
+  }
+
 }

@@ -23,6 +23,7 @@ import { NiceSelectModule } from "ng-nice-select";
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify-order.component';
 import { NouisliderModule } from 'ng2-nouislider';
+import { ClientNotFoundComponent } from '../client-not-found/client-not-found.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { NouisliderModule } from 'ng2-nouislider';
     ClientOrderHistoryComponent,
     ClientProfileComponent,
     ClientVerifyOrderComponent,
+    ClientNotFoundComponent,
   ],
   imports: [
     CommonModule,

@@ -13,6 +13,7 @@ import { ClientOrderHistoryComponent } from '../client-order-history/client-orde
 import { ClientProfileComponent } from '../client-profile/client-profile.component';
 import { ClientLoginComponent } from '../client-login/client-login.component';
 import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify-order.component';
+import { ClientNotFoundComponent } from '../client-not-found/client-not-found.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,9 @@ const routes: Routes = [
       },
       {
         path: 'verify', component: ClientVerifyOrderComponent,
+      },
+      {
+        path: '**', component: ClientNotFoundComponent,
       },
 
     ]

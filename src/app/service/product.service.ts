@@ -100,4 +100,9 @@ export class ProductService {
     const url = `${serverUrl}clients/products/${productUrl}`;
     return this.http.get(url);
   }
+
+  getClientCategoryPageInfo = (categoryUrl: string) => {
+    const url = `${serverUrl}clients/products/category/${categoryUrl}/manufacturer`;
+    return this.http.get(url);
+  }
 }

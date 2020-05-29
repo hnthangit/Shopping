@@ -48,6 +48,10 @@
     color: #fff !important;
   }
 
+  .category-clicked {
+    color: #ffba00 !important;
+  }
+
   /* .pagination {
     margin-top: 10px;
     border-left: 1px solid #eee;
