@@ -30,6 +30,9 @@ import { ProductAttributeComponent } from 'src/app/component/product/edit-produc
 import { OrderComponent } from 'src/app/component/order/order.component';
 import { ViewOrderComponent } from 'src/app/component/order/view-order/view-order.component';
 import { AddCategoryComponent } from 'src/app/component/category/show-category/add-category/add-category.component';
+import { ShowPromotionComponent } from 'src/app/component/promotion/show-promotion/show-promotion.component';
+import { AddPromotionComponent } from 'src/app/component/promotion/add-promotion/add-promotion.component';
+import { ViewPromotionComponent } from 'src/app/component/promotion/view-promotion/view-promotion.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { AddCategoryComponent } from 'src/app/component/category/show-category/a
     ModalSmComponent,
     OrderComponent,
     ViewOrderComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    ShowPromotionComponent,
+    AddPromotionComponent,
+    ViewPromotionComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +76,7 @@ import { AddCategoryComponent } from 'src/app/component/category/show-category/a
     ProductAttributeComponent,
     ViewOrderComponent,
     AddCategoryComponent,
+    ViewPromotionComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }

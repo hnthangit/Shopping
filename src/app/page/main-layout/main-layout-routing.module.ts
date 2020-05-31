@@ -11,6 +11,8 @@ import { EditManufacturerComponent } from 'src/app/component/manufacturer/edit-m
 import { EditProductComponent } from 'src/app/component/product/edit-product/edit-product.component';
 import { AuthGuard } from 'src/app/auth/auth.guard';
 import { OrderComponent } from 'src/app/component/order/order.component';
+import { ShowPromotionComponent } from 'src/app/component/promotion/show-promotion/show-promotion.component';
+import { AddPromotionComponent } from 'src/app/component/promotion/add-promotion/add-promotion.component';
 
 
 const routes: Routes = [
@@ -84,6 +86,23 @@ const routes: Routes = [
             path: '',
             data: { animation: 'MainLayout'},
             component: OrderComponent,
+          },
+        ]
+      },
+      {
+        path: 'promotions',
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: '',
+            data: { animation: 'MainLayout'},
+            component: ShowPromotionComponent,
+          },
+          {
+            path: 'add',
+            data: { animation: 'AddPromotion'},
+            component: AddPromotionComponent,
           },
         ]
       },

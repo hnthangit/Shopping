@@ -39,8 +39,8 @@ export class ShowProductComponent implements OnInit {
 
   productForm = this.fb.group({
     name: [''],
-    priceFrom: ['', Validators.pattern(/^[0-9]\d*$/)],
-    priceTo: ['', Validators.pattern(/^[0-9]\d*$/)],
+    priceFrom: [''],
+    priceTo: [''],
     manufacturerId: [0],
   }, {
     validator: validatePrice

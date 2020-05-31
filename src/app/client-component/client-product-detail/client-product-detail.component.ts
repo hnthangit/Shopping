@@ -5,6 +5,7 @@ import { ProductService } from 'src/app/service/product.service';
 import { element } from 'protractor';
 import { ClientHeaderComponent } from '../client-header/client-header.component';
 import { CartService } from 'src/app/service/cart.service';
+import { serverUrl } from 'src/app/constant/constant';
 declare var $: any;
 
 @Component({
@@ -22,7 +23,7 @@ export class ClientProductDetailComponent implements OnInit {
     nav: false,
     dots: true
   }
-  public url = "http://localhost:8080/shopping/images/";
+  public url = `${serverUrl}images/`;
   public product: any = null;
   public images = [];
   public productAttributes = [];

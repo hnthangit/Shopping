@@ -122,8 +122,10 @@
 								<div class="product-details">
 									<h6>{{item.name}}</h6>
 									<div class="price">
-										<h6>{{item.price}}</h6>
-										<h6 class="l-through">$210.00</h6>
+										<h6>{{item.newPrice? item.newPrice: item.price }}đ</h6>
+										<ng-container *ngIf="item.newPrice">
+										<h6 class="l-through">{{item.price}}đ</h6>
+									</ng-container>
 									</div>
 									<div class="prd-bottom">
 

@@ -4,6 +4,7 @@ import { ClientCategoryService } from 'src/app/service/client-category.service';
 import { serverUrl } from 'src/app/constant/constant';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/service/product.service';
+import { CategoryService } from 'src/app/service/category.service';
 declare var $: any;
 
 @Component({
@@ -26,12 +27,15 @@ export class ClientCategoryComponent implements OnInit {
   public url = `${serverUrl}images/`;
   public collectionSize: number;
 
+  private initCategoryId;
+
   constructor(
     private fb: FormBuilder,
     private clientCategoryService: ClientCategoryService,
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private categoryService: CategoryService,
   ) { }
 
   ngOnInit() {
@@ -86,7 +90,7 @@ export class ClientCategoryComponent implements OnInit {
 
     });
     this.entries = 12;
-    this.getAllProductsInit(1, 12, '', 0, 0, 0, 0, 0);
+
   }
 
   priceForm = this.fb.group({
@@ -114,7 +118,7 @@ export class ClientCategoryComponent implements OnInit {
   searchProductInCategory = () => {
     let priceFrom = this.priceForm.controls.single.value[0]*1000;
     let priceTo = this.priceForm.controls.single.value[1]*1000;
-    this.getAllProductsInit(1, this.entries, this.productForm.value.name, priceFrom, priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+    this.getAllProductsInit(1, this.entries, this.productForm.value.name, priceFrom, priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy, this.initCategoryId);
   }
 
   onTextChange = ($event) => {
@@ -124,14 +128,19 @@ export class ClientCategoryComponent implements OnInit {
   }
 
   changeCategoryInfo = ($event, categoryId: number) => {
-    console.log($event);
-    console.log(categoryId);
+    // console.log($event);
+    // console.log(categoryId);
     if (categoryId == this.productForm.controls.categoryId.value) {
       $event.target.classList.remove('category-clicked');
       this.productForm.patchValue({
         categoryId: 0,
+        name: '',
+        manufacturerId: 0,
       })
-      this.getAllProductsInit(1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+      this.priceForm.patchValue({
+        single: [1,100],
+      })
+      this.getAllProductsInit(1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy, this.initCategoryId);
     } else {
       var lights = document.getElementsByClassName("category-clicked");
       while (lights.length) {
@@ -141,8 +150,14 @@ export class ClientCategoryComponent implements OnInit {
       $event.target.classList.add("category-clicked");
       this.productForm.patchValue({
         categoryId: categoryId,
+        name: '',
+        manufacturerId: 0,
       })
-      this.getAllProductsInit(1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+      
+      this.priceForm.patchValue({
+        single: [1,100],
+      })
+      this.getAllProductsInit(1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy, this.initCategoryId);
     }
   }
 
@@ -171,7 +186,7 @@ export class ClientCategoryComponent implements OnInit {
       sortBy: $event.target.value
     })
 
-    this.clientCategoryService.getAllProducts(0, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy).subscribe(response => {
+    this.clientCategoryService.getAllProducts(0, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy, this.initCategoryId).subscribe(response => {
       this.products = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
@@ -182,7 +197,7 @@ export class ClientCategoryComponent implements OnInit {
 
   onEntriesChange = ($event) => {
     this.entries = $event.target.value;
-    this.clientCategoryService.getAllProducts(0, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy).subscribe(response => {
+    this.clientCategoryService.getAllProducts(0, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy, this.initCategoryId).subscribe(response => {
       this.products = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
@@ -192,19 +207,20 @@ export class ClientCategoryComponent implements OnInit {
 
   onPageChanged = (pageNumber: number) => {
     //console.log("gia tri la"+pageNumber);
-    this.getAllProducts(pageNumber - 1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy);
+    this.getAllProducts(pageNumber - 1, this.entries, this.productForm.value.name, this.productForm.value.priceFrom, this.productForm.value.priceTo, this.productForm.value.manufacturerId, this.productForm.value.categoryId, this.productForm.value.sortBy, this.initCategoryId);
   }
 
-  getAllProducts = (pageNumber: number, size: number, productName: string, priceFrom: number, priceTo: number, manufacturerId: number, categoryId: number, sortBy: number): any => {
-    this.clientCategoryService.getAllProducts(pageNumber, size, productName, priceFrom, priceTo, manufacturerId, categoryId, sortBy).subscribe(response => {
+  getAllProducts = (pageNumber: number, size: number, productName: string, priceFrom: number, priceTo: number, manufacturerId: number, categoryId: number, sortBy: number, initCategoryId: number): any => {
+    this.clientCategoryService.getAllProducts(pageNumber, size, productName, priceFrom, priceTo, manufacturerId, categoryId, sortBy, this.initCategoryId).subscribe(response => {
       this.products = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
     });
   }
 
-  getAllProductsInit = (pageNumber: number, size: number, productName: string, priceFrom: number, priceTo: number, manufacturerId: number, categoryId: number, sortBy: number): any => {
-    this.clientCategoryService.getAllProducts(pageNumber - 1, size, productName, priceFrom, priceTo, manufacturerId, categoryId, sortBy).subscribe(response => {
+  getAllProductsInit = (pageNumber: number, size: number, productName: string, priceFrom: number, priceTo: number, manufacturerId: number, categoryId: number, sortBy: number, initCategoryId: number): any => {
+    //console.log(initCategoryId);
+    this.clientCategoryService.getAllProducts(pageNumber - 1, size, productName, priceFrom, priceTo, manufacturerId, categoryId, sortBy, this.initCategoryId).subscribe(response => {
       this.products = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
@@ -215,11 +231,21 @@ export class ClientCategoryComponent implements OnInit {
 
   getSideBarInfo = () => {
     const url = this.activatedRoute.snapshot.paramMap.get('url');
+    this.categoryService.getAllCategoriesNotHaveParent().subscribe(
+      response => {
+        response.forEach(element => {
+          if(element.url == url){
+            this.initCategoryId = element.id
+          }
+        });
+      }
+    )
     this.productService.getClientCategoryPageInfo(url).subscribe(
       response => {
         if(response['data']!=null){
           this.category = response['data'].categoryList;
           this.manufacturer = response['data'].manufacturerList;
+          this.getAllProductsInit(1, 12, '', 0, 0, 0, 0, 0, this.initCategoryId);
         } else {
           this.router.navigate(['/client/wild-card'])
         }

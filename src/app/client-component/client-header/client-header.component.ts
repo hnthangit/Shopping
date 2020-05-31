@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/service/cart.service';
+import { CategoryService } from 'src/app/service/category.service';
+import { Router } from '@angular/router';
+import { PromotionService } from 'src/app/service/promotion.service';
 declare var $: any;
 @Component({
   selector: 'app-client-header',
@@ -9,12 +12,18 @@ declare var $: any;
 export class ClientHeaderComponent implements OnInit {
 
   public totalItem;
+  public categories;
+  public search = "";
 
   constructor(
     private cartService: CartService,
+    private categoryService: CategoryService,
+    private router: Router,
+    private promotionService: PromotionService,
   ) { }
 
   ngOnInit() {
+    this.getCategoryMenu();
     $(document).ready(function(){
       var window_width 	 = $(window).width(),
       window_height 		 = window.innerHeight,
@@ -63,7 +72,7 @@ export class ClientHeaderComponent implements OnInit {
      this.getTotalItem();
     this.cartService.watchStorage().subscribe((data:string) => {
       this.getTotalItem();
-      console.log('123');
+      //console.log('123');
     });
   }
 
@@ -77,6 +86,20 @@ export class ClientHeaderComponent implements OnInit {
     }
   }
 
+  getCategoryMenu = () => {
+    this.categoryService.getAllCategoriesNotHaveParent().subscribe(
+      response => {
+        this.categories = response;
+      }
+    )
+  }
 
+  searchBox = ($event) => {
+    let input = $event.target.value;
+    this.search = input
+      this.cartService.setItem('search', input);
+      //localStorage.setItem('search', input);
+      this.router.navigate(['/client/search'])  
+  }
 
 }

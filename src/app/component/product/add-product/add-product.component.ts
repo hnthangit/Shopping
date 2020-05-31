@@ -59,13 +59,13 @@ export class AddProductComponent implements OnInit {
 
     this.fileSerivce.uploadImage(this.formData).subscribe(
       response => {
-        console.log(response['data']);
+        //console.log(response['data']);
         if (response['data'] != null) {
           this.productForm.patchValue({
             image: response['data'],
           });
         }
-        console.log(this.productForm.value);
+        //console.log(this.productForm.value);
         this.productService.addProduct(this.productForm.value).subscribe(response => {
           this.showSuccess();
           this.router.navigate(['products']);
