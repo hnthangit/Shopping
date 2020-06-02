@@ -1,6 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
-declare var $: any;
+import { IndexService } from 'src/app/service/index.service';
+import { serverUrl } from 'src/app/constant/constant';
+import { Observable, interval } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CartService } from 'src/app/service/cart.service';
+//declare var $: any;
 
 @Component({
   selector: 'app-client-index',
@@ -17,142 +22,35 @@ export class ClientIndexComponent implements OnInit {
     navText:["<img src='assets/client-assets/img/banner/prev.png'>","<img src='assets/client-assets/img/banner/next.png'>"],
     dots:false,
   }
-  constructor() { }
+  public url = `${serverUrl}images/`;
+  public promotion;
+  public hotProducts = [];
+  public featureProducts = [];
+  public lastestProduct = [];
+  public randomProduct = [];
+
+  private _diff: number;
+    public _days: number;
+    public _hours: number;
+    public _minutes: number;
+    public _seconds: number;
+
+  constructor(
+    private indexService: IndexService,
+    private cartService: CartService,
+  ) { }
 
   ngOnInit() {
     // this.loadScript('../assets/client-assets/js/owl.carousel.min.js');
     // Search Toggle
-    
-    $(document).ready(function(){
-
-        /*=================================
-        Javascript for banner area carousel
-        ==================================*/
-
-        // $(".active-banner-slider").owlCarousel({
-        //     items:1,
-        //     autoplay:false,
-        //     autoplayTimeout: 5000,
-        //     loop:true,
-        //     nav:true,
-        //     navText:["<img src='assets/client-assets/img/banner/prev.png'>","<img src='assets/client-assets/img/banner/next.png'>"],
-        //     dots:false,
-        // });
-      // $(".owl-next").replaceWith("<div class='owl-next'><img src='assets/client-assets/img/banner/next.png'></div>");
-      // $(".owl-prev").replaceWith("<div class='owl-prev'><img src='assets/client-assets/img/banner/prev.png'></div>");
-    
-        /*=================================
-        Javascript for product area carousel
-        ==================================*/
-        // $(".active-product-area").owlCarousel({
-        //     items:1,
-        //     autoplay:false,
-        //     autoplayTimeout: 5000,
-        //     loop:true,
-        //     nav:true,
-        //     navText:["<img src='assets/client-assets/img/product/prev.png'>","<img src='assets/client-assets/img/product/next.png'>"],
-        //     dots:false
-        // });
-    
-        /*=================================
-        Javascript for single product area carousel
-        ==================================*/
-        // $(".s_Product_carousel").owlCarousel({
-        //   items:1,
-        //   autoplay:false,
-        //   autoplayTimeout: 5000,
-        //   loop:true,
-        //   nav:false,
-        //   dots:true
-        // });
-        
-        /*=================================
-        Javascript for exclusive area carousel
-        ==================================*/
-        // $(".active-exclusive-product-slider").owlCarousel({
-        //     items:1,
-        //     autoplay:false,
-        //     autoplayTimeout: 5000,
-        //     loop:true,
-        //     nav:true,
-        //     navText:["<img src='assets/client-assets/img/product/prev.png'>","<img src='assets/client-assets/img/product/next.png'>"],
-        //     dots:false
-        // });
-    
-        //--------- Accordion Icon Change ---------//
-    
-      //   $('.collapse').on('shown.bs.collapse', function(){
-      //       $(this).parent().find(".lnr-arrow-right").removeClass("lnr-arrow-right").addClass("lnr-arrow-left");
-      //   }).on('hidden.bs.collapse', function(){
-      //       $(this).parent().find(".lnr-arrow-left").removeClass("lnr-arrow-left").addClass("lnr-arrow-right");
-      //   });
-    
-      // // Select all links with hashes
-      // $('.main-menubar a[href*="#"]')
-      //   // Remove links that don't actually link to anything
-      //   .not('[href="#"]')
-      //   .not('[href="#0"]')
-      //   .click(function(event) {
-      //     // On-page links
-      //     if (
-      //       location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
-      //       && 
-      //       location.hostname == this.hostname
-      //     ) {
-      //       // Figure out element to scroll to
-      //       var target = $(this.hash);
-      //       target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-      //       // Does a scroll target exist?
-      //       if (target.length) {
-      //         // Only prevent default if animation is actually gonna happen
-      //         event.preventDefault();
-      //         $('html, body').animate({
-      //           scrollTop: target.offset().top-70
-      //         }, 1000, function() {
-      //           // Callback after animation
-      //           // Must change focus!
-      //           var $target = $(target);
-      //           $target.focus();
-      //           if ($target.is(":focus")) { // Checking if the target was focused
-      //             return false;
-      //           } else {
-      //             $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
-      //             $target.focus(); // Set focus again
-      //           };
-      //         });
-      //       }
-      //     }
-      //   });
-  
-      //   $(document).ready(function() {
-      //       $('#mc_embed_signup').find('form').ajaxChimp();
-      //   });   
-
-      //     $('.quick-view-carousel-details').owlCarousel({
-      //         loop: true,
-      //         dots: true,
-      //         items: 1,
-      //     })
-   
-      //   //-------- Have Cupon Button Text Toggle Change -------//
-    
-      //   $('.have-btn').on('click', function(e){
-      //       e.preventDefault();
-      //       $('.have-btn span').text(function(i, text){
-      //         return text === "Have a Coupon?" ? "Close Coupon" : "Have a Coupon?";
-      //       })
-      //       $('.cupon-code').fadeToggle("slow");
-      //   });
-    
-      //   $('.load-more-btn').on('click', function(e){
-      //       e.preventDefault();
-      //       $('.load-product').fadeIn('slow');
-      //       $(this).fadeOut();
-      //   });
-  
-     });
-
+    this.getPromotionInfo();
+    this.getLastestProduct();
+    this.getHotProduct();
+    this.getRandomProduct();
   }
+
+  
+
 
   public loadScript(url: string) {
     const body = <HTMLDivElement>document.body;
@@ -162,6 +60,111 @@ export class ClientIndexComponent implements OnInit {
     script.async = false;
     script.defer = true;
     body.appendChild(script);
+  }
+
+  getDays(t){
+    return Math.floor( t/(1000*60*60*24) );
+}
+
+getHours(t){
+    return Math.floor( (t/(1000*60*60)) % 24 );
+}
+
+getMinutes(t){
+    return Math.floor( (t/1000/60) % 60 );
+}
+
+getSeconds(t){
+    return Math.floor( (t/1000) % 60 );
+}
+
+  getPromotionInfo = () => {
+    this.indexService.getCurrentPromotionInfo().subscribe(
+      response => {
+        this.promotion = response['data'];
+        interval(1000).pipe(
+          map((x) => {this._diff = Date.parse(this.promotion.endDate) - Date.parse(new Date().toString());
+            })).subscribe((x) => {
+                this._days = this.getDays(this._diff);
+                this._hours = this.getHours(this._diff);
+                this._minutes = this.getMinutes(this._diff);
+                this._seconds = this.getSeconds(this._diff);
+            });
+      }
+    )
+  }
+
+  getLastestProduct = () => {
+    this.indexService.getLastestProduct().subscribe(
+      response => {
+        this.lastestProduct = response['data'];
+      }
+    )
+  }
+
+  getRandomProduct = () => {
+    this.indexService.getRandomProduct().subscribe(
+      response => {
+        this.randomProduct = response['data'];
+      }
+    )
+  }
+
+  getHotProduct = () => {
+    this.indexService.getHotProduct().subscribe(
+      response => {
+        for (let index = 0; index < response['data'].length; index++) {
+          const element = response['data'][index];
+          if(index<3){
+            this.featureProducts.push(element);
+          } else {
+            this.hotProducts.push(element);
+          }
+        }
+      }
+    )
+  }
+
+  objectsEqual = (o1, o2) => {
+    return Object.keys(o1).length === Object.keys(o2).length
+      && Object.keys(o1).every(p => o1[p] === o2[p]);
+  }
+  arraysEqual = (a1, a2): boolean => {
+    return a1.length === a2.length && a1.every((o, idx) => this.objectsEqual(o, a2[idx]));
+  }
+
+  addToCart = (id, name, image, price) => {
+    if (localStorage.getItem('cart') == null) {
+      let cart = [];
+      let product = { id: id, name: name, image:image, quantity: 1, price: price, attribute:[] };
+      cart.push(product);
+
+      this.cartService.setItem('cart', JSON.stringify(cart));
+      //localStorage.setItem('cart', JSON.stringify(cart));
+
+    } else {
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      let product = { id: id, name: name, image: image, quantity: 1, price: price, attribute: [] };
+      let check: boolean = false;
+      let duplicateItem: number = 0;
+      cart.forEach(element => {
+        if (element.id == product.id) {
+          if (this.arraysEqual(element.attribute, product.attribute) == true) {
+            duplicateItem++;
+            element.quantity++;
+          }
+        }
+      });
+
+      if (duplicateItem == 0) {
+        cart.push(product);
+      }
+
+      this.cartService.setItem('cart', JSON.stringify(cart));
+      //localStorage.setItem('cart', JSON.stringify(cart));
+
+    }
+
   }
 
 }

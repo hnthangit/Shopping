@@ -15,8 +15,9 @@ export class OrderService {
   }
 
   getOrderHistory = (username: string) => {
-    const url = `${serverUrl}clients/order/${username}`;
-    return this.http.get(url);
+    const url = `${serverUrl}clients/order/get-order-info`;
+    let body = {username: username}
+    return this.http.post(url, body);
   }
 
   getOrderDetail = (orderId: number) => {

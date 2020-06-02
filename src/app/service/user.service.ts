@@ -10,8 +10,9 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUserInfo = (id: string) => {
-    const url = `${serverUrl}clients/user/${id}`;
-    return this.http.get(url);
+    const url = `${serverUrl}clients/user/get-user-info`;
+    let body = {username: id}
+    return this.http.post(url, body);
   }
 
   insertOrUpdateAddress = (body: any) => {

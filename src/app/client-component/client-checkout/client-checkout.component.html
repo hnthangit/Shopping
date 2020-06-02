@@ -39,10 +39,11 @@
                                 </div>
                                 <ng-container *ngIf="flagNoAddress == true; else haveAddress">
                                     <div class="col-md-12 form-group">
-                                        <span>You don't have address, </span><a routerLink="/client/address">add it now</a>
+                                        <span>You don't have address, </span><a routerLink="/client/profile">add it now</a>
                                     </div>
                                 </ng-container>
                                 <ng-template #haveAddress>
+                                    <ng-container *ngIf="addressList">
                                     <div class="col-md-12 form-group">
                                         <div>
                                             <span>Address: </span><br>
@@ -54,6 +55,7 @@
                                         </ng-container>
                                         </select>
                                     </div>
+                                </ng-container>
                                 </ng-template>
 
                             </div>

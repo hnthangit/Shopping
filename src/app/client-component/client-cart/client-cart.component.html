@@ -19,7 +19,7 @@
 <section class="cart_area">
     <div class="container">
         <div class="cart_inner">
-            <ng-container *ngIf="cart==null; else cartNotEmpty">
+            <ng-container *ngIf="cart==null||cart.length==0; else cartNotEmpty">
                 <h1 style="text-align: center;">Cart empty</h1>
                 <a routerLink='/client/index'>
                     <p style="text-align: center;">Back to index <span class="lnr lnr-arrow-right"></span></p>

@@ -5,6 +5,7 @@ import { serverUrl } from 'src/app/constant/constant';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/service/product.service';
 import { CategoryService } from 'src/app/service/category.service';
+import { CartService } from 'src/app/service/cart.service';
 declare var $: any;
 
 @Component({
@@ -36,7 +37,12 @@ export class ClientCategoryComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private categoryService: CategoryService,
-  ) { }
+    private cartService: CartService,
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+  };
+   }
 
   ngOnInit() {
     this.getSideBarInfo();
@@ -113,6 +119,48 @@ export class ClientCategoryComponent implements OnInit {
 
   logForm1 = () => {
     console.log(this.priceForm.value)
+  }
+
+  objectsEqual = (o1, o2) => {
+    return Object.keys(o1).length === Object.keys(o2).length
+      && Object.keys(o1).every(p => o1[p] === o2[p]);
+  }
+  arraysEqual = (a1, a2): boolean => {
+    return a1.length === a2.length && a1.every((o, idx) => this.objectsEqual(o, a2[idx]));
+  }
+
+  addToCart = (id, name, image, price) => {
+    if (localStorage.getItem('cart') == null) {
+      let cart = [];
+      let product = { id: id, name: name, image:image, quantity: 1, price: price, attribute:[] };
+      cart.push(product);
+
+      this.cartService.setItem('cart', JSON.stringify(cart));
+      //localStorage.setItem('cart', JSON.stringify(cart));
+
+    } else {
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      let product = { id: id, name: name, image: image, quantity: 1, price: price, attribute: [] };
+      let check: boolean = false;
+      let duplicateItem: number = 0;
+      cart.forEach(element => {
+        if (element.id == product.id) {
+          if (this.arraysEqual(element.attribute, product.attribute) == true) {
+            duplicateItem++;
+            element.quantity++;
+          }
+        }
+      });
+
+      if (duplicateItem == 0) {
+        cart.push(product);
+      }
+
+      this.cartService.setItem('cart', JSON.stringify(cart));
+      //localStorage.setItem('cart', JSON.stringify(cart));
+
+    }
+
   }
 
   searchProductInCategory = () => {

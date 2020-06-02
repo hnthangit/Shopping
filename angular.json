@@ -33,7 +33,6 @@
               "src/assets/client-assets/js/jquery.nice-select.min.js",
               "src/assets/client-assets/js/jquery.sticky.js",
               "src/assets/client-assets/js/nouislider.min.js",
-              "src/assets/client-assets/js/countdown.js",
               "src/assets/client-assets/js/jquery.magnific-popup.min.js",
               "src/assets/js/adminlte.min.js",             
               "node_modules/bootstrap/js/dist/collapse.js"

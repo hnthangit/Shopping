@@ -28,8 +28,13 @@ export class ClientCartComponent implements OnInit {
 
   removeItemFromCart(index: number) {
     this.cart.splice(index, 1);
-    this.cartService.setItem('cart', JSON.stringify(this.cart));
-    this.caculateTotalPrice();
+    if(this.cart.length==0){
+      this.cartService.removeItem('cart');
+    } else {
+      this.cartService.setItem('cart', JSON.stringify(this.cart));
+      this.caculateTotalPrice();
+    }
+
 
   }
 

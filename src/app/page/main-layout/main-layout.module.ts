@@ -33,6 +33,8 @@ import { AddCategoryComponent } from 'src/app/component/category/show-category/a
 import { ShowPromotionComponent } from 'src/app/component/promotion/show-promotion/show-promotion.component';
 import { AddPromotionComponent } from 'src/app/component/promotion/add-promotion/add-promotion.component';
 import { ViewPromotionComponent } from 'src/app/component/promotion/view-promotion/view-promotion.component';
+import { IndexComponent } from 'src/app/component/index/index.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { ViewPromotionComponent } from 'src/app/component/promotion/view-promoti
     ShowPromotionComponent,
     AddPromotionComponent,
     ViewPromotionComponent,
+    IndexComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +73,7 @@ import { ViewPromotionComponent } from 'src/app/component/promotion/view-promoti
     NgxPaginationModule,
     EditorModule,
     NgbModule,
+    ChartsModule,
   ],
   entryComponents:[
     ModalSmComponent,

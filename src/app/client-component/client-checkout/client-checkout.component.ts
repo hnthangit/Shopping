@@ -213,7 +213,10 @@ export class ClientCheckoutComponent implements OnInit {
           this.addressList = response['data'].addressSet;
           this.createFullAddress();
           this.addressList.sort((a, b) => parseInt(b.id) - parseInt(a.id));
-          this.selectedAddress = this.addressList[0].fullAddress;
+          if(this.addressList.length!=0){
+            this.selectedAddress = this.addressList[0].fullAddress;
+          }
+          
           this.orderForm.patchValue({
             paymentMethod: 'COD',
             address: this.selectedAddress,
