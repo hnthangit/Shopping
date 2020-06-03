@@ -14,6 +14,10 @@ import { OrderComponent } from 'src/app/component/order/order.component';
 import { ShowPromotionComponent } from 'src/app/component/promotion/show-promotion/show-promotion.component';
 import { AddPromotionComponent } from 'src/app/component/promotion/add-promotion/add-promotion.component';
 import { IndexComponent } from 'src/app/component/index/index.component';
+import { ReviewComponent } from 'src/app/component/review/review.component';
+import { ShowPostComponent } from 'src/app/component/post/show-post/show-post.component';
+import { AddPostComponent } from 'src/app/component/post/add-post/add-post.component';
+import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.component';
 
 
 const routes: Routes = [
@@ -118,6 +122,40 @@ const routes: Routes = [
             component: IndexComponent,
           },
 
+        ]
+      },
+      {
+        path: 'reviews',
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: '',
+            data: { animation: 'MainLayout'},
+            component: ReviewComponent,
+          },
+        ]
+      },
+      {
+        path: 'blogs',
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: '',
+            data: { animation: 'ShowProduct'},
+            component: ShowPostComponent,
+          },
+          {
+            path: 'add',
+            data: { animation: 'AddProduct'},
+            component: AddPostComponent,
+          },
+          {
+            path: 'edit/:id',
+            data: { animation: 'EditProduct'},
+            component: EditPostComponent,
+          },
         ]
       },
     ]

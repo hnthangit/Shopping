@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BlogService } from 'src/app/service/blog.service';
+import { ActivatedRoute } from '@angular/router';
+import { serverUrl } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-client-blog-detail',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientBlogDetailComponent implements OnInit {
 
-  constructor() { }
+  public post;
+  public url = `${serverUrl}images/`;
+  constructor(
+    private blogService: BlogService,
+    private activatedRoute: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
+    this.getPostInfo();
+  }
+
+  getPostInfo = () => {
+    const postId = +this.activatedRoute.snapshot.paramMap.get('id');
+    this.blogService.getOneBlog(postId).subscribe(response => {
+      this.post = response['data'];
+    });
   }
 
 }

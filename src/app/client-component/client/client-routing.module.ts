@@ -34,7 +34,7 @@ const routes: Routes = [
         path: 'blog', component: ClientBlogComponent,
       },
       {
-        path: 'blog-detail', component: ClientBlogDetailComponent,
+        path: 'blog-detail/:id', component: ClientBlogDetailComponent,
       },
       {
         path: 'cart', component: ClientCartComponent,

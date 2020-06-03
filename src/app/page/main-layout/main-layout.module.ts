@@ -35,6 +35,8 @@ import { AddPromotionComponent } from 'src/app/component/promotion/add-promotion
 import { ViewPromotionComponent } from 'src/app/component/promotion/view-promotion/view-promotion.component';
 import { IndexComponent } from 'src/app/component/index/index.component';
 import { ChartsModule } from 'ng2-charts';
+import { ReviewComponent } from 'src/app/component/review/review.component';
+import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { ChartsModule } from 'ng2-charts';
     AddPromotionComponent,
     ViewPromotionComponent,
     IndexComponent,
+    ReviewComponent,
+    EditPostComponent,
   ],
   imports: [
     CommonModule,

@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Blog</h1>
+          <h1>Reviews</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a routerLink='/admin/index' routerLinkActive="active">Home</a></li>
-            <li class="breadcrumb-item active">Blog</li>
+            <li class="breadcrumb-item active">Reviews</li>
           </ol>
         </div>
       </div>
@@ -26,21 +26,30 @@
           </button>
         </div>
       </div>
+      <ng-container *ngIf="reviews">
         <ng-container *ngIf="showSearchBar == true">
           <div class="card-body">
             <!-- <p>
         Form Value: {{ productForm.value | json }}
       </p> -->
-            <form [formGroup]="postForm" (ngSubmit)="onSubmit(postForm.value)">
+            <form [formGroup]="reviewForm" (ngSubmit)="onSubmit(reviewForm.value)">
               <div class="form-row mb-2">
-                <div class="col-12">
-                  <label>Name</label>
+                <div class="col-4">
+                  <label>Product Name</label>
                   <input type="text" formControlName="name" class="form-control">
+                </div>
+                <div class="col-4">
+                  <label>Rating</label>
+                  <input type="text" formControlName="rating" class="form-control">
+                </div>
+                <div class="col-4">
+                  <label>Content</label>
+                  <input type="text" formControlName="content" class="form-control">
                 </div>
               </div>
               <div class="card-footer mt-2 d-flex justify-content-center">
   
-                <button type="submit" class="btn btn-lg btn-success mr-2" [disabled]="!postForm.valid"><i
+                <button type="submit" class="btn btn-lg btn-success mr-2" [disabled]="!reviewForm.valid"><i
                     class="fas fa-search"></i> Search</button>
                 <button class="btn btn-lg btn-info" (click)="resetForm()"><i class="fas fa-brush"></i> Clear all
                   field</button>
@@ -48,6 +57,7 @@
             </form>
           </div>
         </ng-container>
+      </ng-container>
   
     </div>
     <div class="card">
@@ -65,65 +75,54 @@
             </span>
           </h3>
           <div class="card-tools">
-            <a class="btn btn-primary btn-sm" routerLink='/admin/blogs/add' routerLinkActive="active">Add</a>
+            <a class="btn btn-primary btn-sm" routerLink='/admin/products/add' routerLinkActive="active">Add</a>
           </div>
         </div>
       </div>
       <div class="card-body">
-        <ng-container *ngIf="blogs">
+        <ng-container *ngIf="reviews">
           <!-- https://material.angular.io/components/table/examples -->
-          <table cdk-table [dataSource]="blogs" class="table table-hover projects">
+          <table cdk-table [dataSource]="reviews" class="table table-hover projects">
   
             <!-- Id Column -->
-            <ng-container cdkColumnDef="id" style="width: 16.6666666667%">
-              <th cdk-header-cell *cdkHeaderCellDef> Id </th>
-              <td cdk-cell *matCellDef="let blogs"> {{blogs.id}} </td>
+            <ng-container cdkColumnDef="id">
+              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Id </th>
+              <td cdk-cell *matCellDef="let reviews"> {{reviews.id}} </td>
             </ng-container>
-
-            <ng-container cdkColumnDef="title">
-                <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Title </th>
-                <td cdk-cell *cdkCellDef="let blogs"> {{blogs.title}} </td>
-              </ng-container>
-
-            <ng-container cdkColumnDef="image">
-              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Image </th>
-              <td cdk-cell *matCellDef="let blogs">
-                <ng-container *ngIf="blogs.image; else noImage">
-                <img style="width: 50px; height: 50px;" [src]="url+blogs.image" alt="">
-              </ng-container>
-              <ng-template #noImage>
-                <img style="width: 50px; height: 50px;" src="assets/no_image.jpg" alt="">
-              </ng-template>
-              </td>
-
+  
+            <ng-container cdkColumnDef="name">
+              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Product name </th>
+              <td cdk-cell *matCellDef="let reviews">{{reviews.productEntity.name}}</td>
             </ng-container>
   
             <!-- Name Column -->
-            <ng-container cdkColumnDef="dateCreate">
-              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Date </th>
-              <td cdk-cell *cdkCellDef="let blogs"> {{blogs.dateCreated}} </td>
+            <ng-container cdkColumnDef="rating">
+              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Rating </th>
+              <td cdk-cell *cdkCellDef="let reviews"> {{reviews.rating}} </td>
             </ng-container>
   
             <!-- Des Column -->
-            <ng-container cdkColumnDef="overview">
-              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Overview </th>
-              <td cdk-cell *cdkCellDef="let blogs"> {{blogs.overview}} </td>
+            <ng-container cdkColumnDef="content">
+              <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Content </th>
+              <td cdk-cell *cdkCellDef="let reviews"> {{reviews.content}} </td>
             </ng-container>
+
+            <ng-container cdkColumnDef="status">
+                <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Status </th>
+                <td cdk-cell *cdkCellDef="let reviews"> 
+                    <span class="badge" [ngClass]="reviews.approved ? 'badge-primary': 'badge-danger'">{{reviews.approved ? 'Show': 'Hidden'}}</span> 
+                </td>
+              </ng-container>
   
             <!-- Action Column -->
             <ng-container cdkColumnDef="action">
               <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Action </th>
-              <td cdk-cell *cdkCellDef="let blogs">
-                <a [routerLink]="['edit', blogs.id]" class="btn btn-info btn-sm">
+              <td cdk-cell *cdkCellDef="let reviews">
+                <a href="javascript:void(0)" class="btn btn-info btn-sm" (click)="toggleReview(reviews.id)">
                   <i class="fas fa-pencil-alt">
                   </i>
-                  Edit
+                  Change status
                 </a>
-                <!-- <a class="btn btn-danger btn-sm" href="javascript:void(0);" (click)="delete(blogs.id)">
-                  <i class="fas fa-trash">
-                  </i>
-                  Delete
-                </a> -->
               </td>
             </ng-container>
   

@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FileService } from 'src/app/service/file.service';
+import { ToastrService } from 'ngx-toastr';
 import { BlogService } from 'src/app/service/blog.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { FileService } from 'src/app/service/file.service';
-import { Router } from '@angular/router';
+import { serverUrl } from 'src/app/constant/constant';
 
 @Component({
-  selector: 'app-add-post',
-  templateUrl: './add-post.component.html',
-  styleUrls: ['./add-post.component.css']
+  selector: 'app-edit-post',
+  templateUrl: './edit-post.component.html',
+  styleUrls: ['./edit-post.component.css']
 })
-export class AddPostComponent implements OnInit {
-
+export class EditPostComponent implements OnInit {
   private formData = new FormData();
   public imagePath;
   imgURL: any;
+  public url = `${serverUrl}images/`;
 
   constructor(
     private blogService: BlogService,
@@ -22,9 +23,11 @@ export class AddPostComponent implements OnInit {
     private toastr: ToastrService,
     private fileSerivce: FileService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.getPostInfo();
   }
 
   postForm = this.fb.group({
@@ -89,6 +92,18 @@ export class AddPostComponent implements OnInit {
     this.postForm.reset();
   }
 
+  getPostInfo = () => {
+    const postId = +this.activatedRoute.snapshot.paramMap.get('id');
+    this.blogService.getOneBlog(postId).subscribe(response => {
+      this.postForm.patchValue({
+        id: response['data'].id,
+        title: response['data'].title,
+        body: response['data'].body,
+        overview: response['data'].overview,
+      });
+      this.imgURL = this.url + response['data'].image;
+    });
+  }
 
 
 }

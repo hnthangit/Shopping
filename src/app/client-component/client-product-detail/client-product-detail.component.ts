@@ -6,6 +6,9 @@ import { element } from 'protractor';
 import { ClientHeaderComponent } from '../client-header/client-header.component';
 import { CartService } from 'src/app/service/cart.service';
 import { serverUrl } from 'src/app/constant/constant';
+import { ReviewService } from 'src/app/service/review.service';
+import { FormBuilder } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 declare var $: any;
 
 @Component({
@@ -34,16 +37,77 @@ export class ClientProductDetailComponent implements OnInit {
   private selectedAttributes = [];
   public listAttributes = [];
 
+  public reviewList = [];
+  public username;
+  public alreadyReview: boolean = false ;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private productService: ProductService,
     // private headerComp: ClientHeaderComponent,
     private cartService: CartService,
+    private reviewService: ReviewService,
+    private fb: FormBuilder,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
     this.quantity = 1;
-    this.getClientProductInfo(); 
+    this.username = this.authService.getUserId();
+    this.getClientProductInfo();
+    this.updateReviewForm(); 
+  }
+
+  reviewForm = this.fb.group({
+    id: 0,
+    content: [''],
+    rating: 5,
+    productEntity: this.fb.group({
+      id: 0,
+    }),
+    userEntity: this.fb.group({
+      username: ['']
+    })
+  })
+
+  onSubmit = () => {
+    this.reviewService.addReview(this.reviewForm.value).subscribe(
+      response => {
+      }
+    )
+  }
+
+  updateReviewForm = () => {
+    let username = this.authService.getUserId();
+    if(username!=null){
+      this.reviewForm.patchValue({
+        userEntity : {
+          username: username,
+        }
+      })
+    }
+  }
+
+  getMyReview = (productId: number) => {
+    let username = this.authService.getUserId();
+    console.log(username);
+    if(username!=null){
+      this.reviewList.forEach(element => {
+        //console.log(element.content);
+        if(element.userEntity.username == username){
+          this.alreadyReview = true;
+          this.reviewForm.patchValue({
+            content: element.content,
+            rating: element.rating,
+          })
+        }
+      });
+      this.reviewForm.patchValue({
+        userEntity : {
+          username: username,
+        }
+      })
+    }
   }
 
   onChange = ($event) => {
@@ -225,6 +289,21 @@ export class ClientProductDetailComponent implements OnInit {
         // $(document).ready(function() {
         //   $('select').niceSelect();
         // });
+        this.reviewService.getReviewByProductId(this.product.id).subscribe(
+          responseReview => {
+            this.reviewList = responseReview['data'];
+            this.getMyReview(this.product.id);
+          }
+        )
+
+        this.updateReviewForm();
+        
+
+        this.reviewForm.patchValue({
+          productEntity: {
+            id: this.product.id,
+          }
+        })
       }
     )
   }

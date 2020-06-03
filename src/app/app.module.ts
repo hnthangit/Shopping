@@ -13,6 +13,8 @@ import { PageNotFoundComponent } from "./component/page-not-found/page-not-found
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ClientModule } from './client-component/client/client.module';
+import { ReviewComponent } from './component/review/review.component';
+import { EditPostComponent } from './component/post/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [

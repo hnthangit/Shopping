@@ -22,6 +22,10 @@
 @import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.css';
 @import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.css';
 
+@import '~ngx-bar-rating/themes/br-fontawesome-theme';
+@import '~ngx-bar-rating/themes/br-default-theme' ;
+@import '~ngx-bar-rating/themes/br-fontawesome-o-theme';
+
 .content-wrapper .content {
     padding: 0 .5rem;
 }
