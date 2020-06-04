@@ -37,6 +37,8 @@ import { IndexComponent } from 'src/app/component/index/index.component';
 import { ChartsModule } from 'ng2-charts';
 import { ReviewComponent } from 'src/app/component/review/review.component';
 import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.component';
+import { AttributeComponent } from 'src/app/component/attribute/attribute.component';
+import { AddAttributeComponent } from 'src/app/component/attribute/add-attribute/add-attribute.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.co
     IndexComponent,
     ReviewComponent,
     EditPostComponent,
+    AttributeComponent,
+    AddAttributeComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +89,7 @@ import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.co
     ViewOrderComponent,
     AddCategoryComponent,
     ViewPromotionComponent,
+    AddAttributeComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }

@@ -44,12 +44,12 @@ export class AuthService {
   }
 
   logout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 
   isLoggedIn = () => {
-    return (localStorage.getItem('token') === null) ? false : true;
+    return (localStorage.getItem('token') === null && sessionStorage.getItem('token')===null) ? false : true;
   }
 
   getUserId = () => {

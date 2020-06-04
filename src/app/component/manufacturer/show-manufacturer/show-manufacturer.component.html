@@ -3,12 +3,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Brand</h1>
+        <h1>Manufacturer</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink='/' routerLinkActive="active">Home</a></li>
-          <li class="breadcrumb-item active">Brand</li>
+          <li class="breadcrumb-item"><a routerLink='/admin/index' routerLinkActive="active">Home</a></li>
+          <li class="breadcrumb-item active">Manufacturer</li>
         </ol>
       </div>
     </div>
@@ -62,7 +62,7 @@
           </span>
         </h3>
         <div class="card-tools">
-          <a class="btn btn-primary btn-sm" routerLink='/manufacturers/add' routerLinkActive="active">Add</a>
+          <a class="btn btn-primary btn-sm" routerLink='/admin/manufacturers/add' routerLinkActive="active">Add</a>
 
         </div>
       </div>
@@ -105,11 +105,11 @@
                 </i>
                 Edit
               </a>
-              <a class="btn btn-danger btn-sm" href="javascript:void(0);" (click)="delete(manufacturer.id, manufacturer.name)">
+              <!-- <a class="btn btn-danger btn-sm" href="javascript:void(0);" (click)="delete(manufacturer.id, manufacturer.name)">
                 <i class="fas fa-trash">
                 </i>
                 Delete
-              </a>
+              </a> -->
             </td>
           </ng-container>
 
@@ -117,37 +117,9 @@
           <tr cdk-row *cdkRowDef="let row; columns: columnsToDisplay;"></tr>
         </table>
       </ng-container>
-
-      <!-- <div class="modal fade" id="modal-sm" style="padding-right: 16px; display: block;" aria-modal="true">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Small Modal</h4>
-              <button class="close" aria-label="Close" type="button" data-dismiss="modal">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>One fine body…</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-              <button class="btn btn-primary" type="button">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!-- <app-paginator [currentPage]="this.currentPage" [totalPage]="this.totalPage">       
-      </app-paginator> -->
-      <!-- <ul class="pagination mt-4 float-right">
-        <li class="page-item"><a class="page-link">Previous</a></li>
-        <ng-container *ngFor="let number of totalPageArray(totalPage); let i = index;">
-          <li [ngClass]="currentPage==i ? 'active': ''" class="page-item"><a class="page-link" href="javascript:void()"
-              (click)="getAllManufacturers(i,this.entries, manufacturerForm.value.name, manufacturerForm.value.address); currentPage=i">{{i+1}}</a></li>
-        </ng-container>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul> -->
-      <app-paginator [currentPage]="currentPage" [totalPage]="totalPage" (pageChanged)="onPageChanged($event)"></app-paginator>
+      <!-- <app-paginator [currentPage]="currentPage" [totalPage]="totalPage" (pageChanged)="onPageChanged($event)"></app-paginator> -->
+      <ngb-pagination [(page)]="currentPageDisplay" [pageSize]="entries" [maxSize]="3" [rotate]="true"
+      [boundaryLinks]="true" [collectionSize]="collectionSize" (pageChange)="onPageChanged($event)"></ngb-pagination>
     </div>
   </div>
 </section>

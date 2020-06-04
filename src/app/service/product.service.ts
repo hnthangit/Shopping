@@ -105,4 +105,9 @@ export class ProductService {
     const url = `${serverUrl}clients/products/category/${categoryUrl}/manufacturer`;
     return this.http.get(url);
   }
+
+  getRelatedProduct = (productId: number) => {
+    const url = `${serverUrl}clients/products/related-product/${productId}`;
+    return this.http.get(url);
+  }
 }

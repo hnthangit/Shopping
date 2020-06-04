@@ -117,7 +117,7 @@
 						<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
 							
 							<div class="row">
-								<ng-container *ngIf="reviewList.length!=0">
+								<ng-container *ngIf="reviewList.length!=0; else noReview">
 								<div class="col-lg-6">
 									<div class="row total_rate">
 										<div class="col-12">
@@ -147,10 +147,26 @@
 									</div>
 								</div>
 							</ng-container>
+							<ng-template #noReview>
 								<div class="col-lg-6">
-									<ng-container *ngIf="alreadyReview; else userNotLogin">
+									<div class="row total_rate">
+										<div class="col-12">
+											<div class="box_total">
+												<h5>Overall</h5>
+												<h4>{{product.rating}}</h4>
+												<h6>({{reviewList.length}} Reviews)</h6>
+											</div>
+										</div>
+									</div>
+									<div class="review_list">									
+									</div>
+								</div>
+							</ng-template>
+								<div class="col-lg-6">
+									<ng-container *ngIf="username!=null; else noLogin">
+										<ng-container *ngIf="sendSubmit">
 									<form class="review_box" [formGroup]="reviewForm">
-										{{reviewForm.value | json}}
+										<!-- {{reviewForm.value | json}} -->
 										<h4>Add a Review</h4>
 										<p>Your Rating:</p>
 										<bar-rating formControlName="rating" [max]="5" [theme]="'default'" [showText]="true" [titles]="['Very Bad', 'Bad' , 'Average', 'Good', 'Very Good']"></bar-rating>
@@ -171,11 +187,29 @@
 										</div>
 									</form>
 								</ng-container>
-								<ng-container *ngIf='!alreadyReview' #userNotLogin>
-									<div class="col-md-12">
-										<a routerLink="/client/login" class="primary-btn">Please login</a>
-									</div>
+								<ng-container *ngIf="!sendSubmit">
+									<form class="review_box" [formGroup]="reviewForm">
+										<p>Your Rating:</p>
+										<bar-rating formControlName="rating" [max]="5" [theme]="'default'" [showText]="true" [titles]="['Very Bad', 'Bad' , 'Average', 'Good', 'Very Good']" disabled></bar-rating>
+										<!-- <form></form> -->
+										<div class="row contact_form" action="contact_process.php" method="post"
+											id="contactForm" novalidate="novalidate">
+											<div class="col-md-12">
+												<div class="form-group">
+													<textarea class="form-control" formControlName="content" id="message" rows="1"
+														placeholder="Review" onfocus="this.placeholder = ''"
+														onblur="this.placeholder = 'Review'" disabled></textarea>
+												</div>
+											</div>
+										</div>
+									</form>
 								</ng-container>
+								</ng-container>
+								<ng-template #noLogin>
+									<div class="col-md-12">
+										<a routerLink="/client/login" class="primary-btn">Please login to write review</a>
+									</div>
+								</ng-template>
 								</div>
 							</div>
 						
@@ -203,80 +237,44 @@
 				</div>
 			</div>
 			<div class="row">
+				<ng-container *ngFor="let item of relatedProduct">
 				<div class="col-lg-4 col-md-6">
-					<div class="single-product">
-						<img class="img-fluid" src="assets/client-assets/img/product/p1.jpg" alt="">
-						<div class="product-details">
-							<h6>addidas New Hammer sole
-								for Sports person</h6>
-							<div class="price">
-								<h6>$150.00</h6>
-								<h6 class="l-through">$210.00</h6>
-							</div>
-							<div class="prd-bottom">
+						<div class="single-product">
+							<ng-container *ngIf="item.image; else noImage">
+								<a [routerLink]="['/client/product', item.url]"><img
+										style="width: 255px; height: 270px;" class="img-fluid"
+										[src]="url + item.image"></a>
+							</ng-container>
+							<ng-template #noImage>
+								<a [routerLink]="['/client/product', item.url]"><img
+										style="width: 255px; height: 270px;" class="img-fluid"
+										src="assets/no_image.jpg"></a>
+							</ng-template>
+							<div class="product-details">
+								<h6>{{item.name}}</h6>
+								<div class="price">
+									<h6>{{item.newPrice? item.newPrice: item.price }}đ</h6>
+									<ng-container *ngIf="item.newPrice">
+										<h6 class="l-through">{{item.price}}đ</h6>
+									</ng-container>
+								</div>
+								<div class="prd-bottom">
 
-								<a href="" class="social-info">
-									<span class="ti-bag"></span>
-									<p class="hover-text">Cart</p>
-								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-heart"></span>
-									<p class="hover-text">Wishlist</p>
-								</a>
+									<a href="javascript:void(0)" class="social-info" (click)="addToCartRelated(item.id, item.name, item.image, item.price)">
+										<span class="ti-bag"></span>
+										<p class="hover-text">Add to cart</p>
+									</a>
+									<a href="" class="social-info">
+										<span class="lnr lnr-heart"></span>
+										<p class="hover-text">Wishlist</p>
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
+
 				</div>
+			</ng-container>
 				<!-- single product -->
-				<div class="col-lg-4 col-md-6">
-					<div class="single-product">
-						<img class="img-fluid" src="assets/client-assets/img/product/p2.jpg" alt="">
-						<div class="product-details">
-							<h6>addidas New Hammer sole
-								for Sports person</h6>
-							<div class="price">
-								<h6>$150.00</h6>
-								<h6 class="l-through">$210.00</h6>
-							</div>
-							<div class="prd-bottom">
-
-								<a href="" class="social-info">
-									<span class="ti-bag"></span>
-									<p class="hover-text">Cart</p>
-								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-heart"></span>
-									<p class="hover-text">Wishlist</p>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- single product -->
-				<div class="col-lg-4 col-md-6">
-					<div class="single-product">
-						<img class="img-fluid" src="assets/client-assets/img/product/p3.jpg" alt="">
-						<div class="product-details">
-							<h6>addidas New Hammer sole
-								for Sports person</h6>
-							<div class="price">
-								<h6>$150.00</h6>
-								<h6 class="l-through">$210.00</h6>
-							</div>
-							<div class="prd-bottom">
-
-								<a href="" class="social-info">
-									<span class="ti-bag"></span>
-									<p class="hover-text">Cart</p>
-								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-heart"></span>
-									<p class="hover-text">Wishlist</p>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</section>

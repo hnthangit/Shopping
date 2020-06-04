@@ -32,18 +32,31 @@
 						<li class="nav-item">
 							<a class="nav-link" routerLink='/client/blog'>Blog</a>
 						</li>
+						<ng-container *ngIf="!userLoggedIn">
 						<li class="nav-item">
 							<a class="nav-link" routerLink='/client/login'>Login</a>
 						</li>
+					</ng-container>
+					<ng-container *ngIf="userLoggedIn">
 						<li class="nav-item submenu dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-								aria-haspopup="true" aria-expanded="false">Pages</a>
+							<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false">My account</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" routerLink='/client/login'>Login</a></li>
-								<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-								<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+								<li class="nav-item">
+									<a class="nav-link" routerLink='/client/profile'>Profile</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" routerLink='/client/wishlist'>Wishlist</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" routerLink='/client/order-history'>Order History</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="javascript:void(0)" (click)="logout()">Logout</a>
+								</li>
 							</ul>
 						</li>
+					</ng-container>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="nav-item">

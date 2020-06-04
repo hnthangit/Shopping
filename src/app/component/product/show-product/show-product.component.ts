@@ -65,7 +65,7 @@ export class ShowProductComponent implements OnInit {
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
       this.currentPageDisplay = this.currentPage+1;
-      this.paginator.createListPage(0, this.totalPage);
+      //this.paginator.createListPage(0, this.totalPage);
     });
   }
 

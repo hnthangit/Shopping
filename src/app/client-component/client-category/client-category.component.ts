@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/service/product.service';
 import { CategoryService } from 'src/app/service/category.service';
 import { CartService } from 'src/app/service/cart.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserService } from 'src/app/service/user.service';
 declare var $: any;
 
 @Component({
@@ -38,6 +40,8 @@ export class ClientCategoryComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private cartService: CartService,
+    private authService: AuthService,
+    private userService: UserService,
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
@@ -161,6 +165,20 @@ export class ClientCategoryComponent implements OnInit {
 
     }
 
+  }
+
+  addToWishlist = (id) => {
+    let username = this.authService.getUserId();
+    if(username!=null){
+      let body = {id: 0, productEntity: { id: id}, userEntity: {username: username}};
+      this.userService.addWishlist(body).subscribe(
+        response => {
+
+        }
+      )
+    } else {
+      this.router.navigate(['/client/login'])
+    }
   }
 
   searchProductInCategory = () => {

@@ -5,8 +5,8 @@
 			<div class="col-first">
 				<h1>Login/Register</h1>
 				<nav class="d-flex align-items-center">
-					<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-					<a href="category.html">Login/Register</a>
+					<a routerLink="/admin/index">Home<span class="lnr lnr-arrow-right"></span></a>
+					<a href="javascript:void(0)">Login/Register</a>
 				</nav>
 			</div>
 		</div>
@@ -34,6 +34,16 @@
 									Use your email please
 								</small>
 							</ng-container>
+							<ng-container *ngIf="(registerForm.controls.username.dirty || registerForm.controls.username.touched)">
+								<ng-container *ngIf="registerForm.controls.username.status === 'PENDING'">
+								  <div class="spinner-border spinner-border-sm" role="status">
+									<span class="sr-only">Loading...</span>
+								  </div>
+								</ng-container>
+								<ng-container *ngIf="registerForm.controls.username.errors?.userNameExist">
+								  <span class="text-danger">Username Exist</span>
+								</ng-container>
+							  </ng-container>
 						</div>
 						<div class="col-md-12 form-group">
 							<input type="password" formControlName="password" class="form-control" required
@@ -97,9 +107,12 @@
 							</ng-container>
 						</div>
 						<div class="col-md-12 form-group">
+							<small class="text-primary" *ngIf="isRegisterSuccess!=''">
+								Register Success, please wait and login again
+							</small>
 							<button type="submit" value="submit"
 								[ngClass]="!registerForm.valid ? 'disabled-btn' : 'primary-btn'"
-								[disabled]="!registerForm.valid">Create my account</button>
+								[disabled]="!registerForm.valid" (click)="register()">Create my account</button>
 						</div>
 					</form>
 				</div>

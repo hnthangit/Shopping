@@ -114,7 +114,15 @@
                     <ng-container cdkColumnDef="deliveryStatus">
                         <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Delivery Status </th>
                         <td cdk-cell *cdkCellDef="let order"> 
-                            {{order.deliveryStatus}} 
+                            <ng-container *ngIf="order.deliveryStatus=='COMPLETED'">
+                                <span class="badge badge-success">{{order.deliveryStatus}} </span>
+                            </ng-container>
+                            <ng-container *ngIf="order.deliveryStatus=='CANCELLED'">
+                                <span class="badge badge-danger">{{order.deliveryStatus}} </span>
+                            </ng-container>
+                            <ng-container *ngIf="order.deliveryStatus=='PENDING'">
+                                <span class="badge badge-primary">{{order.deliveryStatus}} </span>
+                            </ng-container>
                         </td>
                     </ng-container>
 
@@ -127,7 +135,17 @@
                     <!-- Des Column -->
                     <ng-container cdkColumnDef="paymentStatus">
                         <th cdk-header-cell *cdkHeaderCellDef style="width: 16.6666666667%"> Payment Status </th>
-                        <td cdk-cell *cdkCellDef="let order"> {{order.paymentStatus}} </td>
+                        <td cdk-cell *cdkCellDef="let order"> 
+                            <ng-container *ngIf="order.paymentStatus=='SUCCESS'">
+                            <span class="badge badge-success">{{order.paymentStatus}} </span>
+                        </ng-container>
+                        <ng-container *ngIf="order.paymentStatus=='FAIL'">
+                            <span class="badge badge-danger">{{order.paymentStatus}} </span>
+                        </ng-container>
+                        <ng-container *ngIf="order.paymentStatus=='PENDING'">
+                            <span class="badge badge-primary">{{order.paymentStatus}} </span>
+                        </ng-container>
+                        </td>
                     </ng-container>
 
                     <!-- Action Column -->

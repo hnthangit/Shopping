@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/service/cart.service';
 import { ActivatedRoute } from '@angular/router';
+import { serverUrl } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-client-cart',
@@ -10,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ClientCartComponent implements OnInit {
 
   public cart = null;
-  public url = "http://localhost:8080/shopping/images/";
+  public url = `${serverUrl}images/`;
   public isLogin = true;
 
   public totalPrice;

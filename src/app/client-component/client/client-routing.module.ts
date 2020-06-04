@@ -15,6 +15,7 @@ import { ClientLoginComponent } from '../client-login/client-login.component';
 import { ClientVerifyOrderComponent } from '../client-verify-order/client-verify-order.component';
 import { ClientNotFoundComponent } from '../client-not-found/client-not-found.component';
 import { ClientSearchComponent } from '../client-search/client-search.component';
+import { AuthGuard } from 'src/app/auth/auth.guard';
 
 
 const routes: Routes = [
@@ -40,21 +41,26 @@ const routes: Routes = [
         path: 'cart', component: ClientCartComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'checkout', component: ClientCheckoutComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'wishlist', component: ClientWishlistComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'order-history', component: ClientOrderHistoryComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'profile', component: ClientProfileComponent,
       },
       {
         path: 'login', component: ClientLoginComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'verify', component: ClientVerifyOrderComponent,
       },
       {

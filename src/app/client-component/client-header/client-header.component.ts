@@ -3,6 +3,8 @@ import { CartService } from 'src/app/service/cart.service';
 import { CategoryService } from 'src/app/service/category.service';
 import { Router } from '@angular/router';
 import { PromotionService } from 'src/app/service/promotion.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { serverUrl } from 'src/app/constant/constant';
 declare var $: any;
 @Component({
   selector: 'app-client-header',
@@ -14,15 +16,19 @@ export class ClientHeaderComponent implements OnInit {
   public totalItem;
   public categories;
   public search = "";
+  public username;
+  public userLoggedIn = false;
 
   constructor(
     private cartService: CartService,
     private categoryService: CategoryService,
     private router: Router,
     private promotionService: PromotionService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
+    this.userLoggedIn = this.authService.isLoggedIn();
     this.getCategoryMenu();
     $(document).ready(function(){
       var window_width 	 = $(window).width(),
@@ -84,6 +90,11 @@ export class ClientHeaderComponent implements OnInit {
         this.totalItem +=element.quantity
       });
     }
+  }
+
+  logout = () => {
+    this.authService.logout();
+    window.location.href = 'http://localhost:4200/client/index';
   }
 
   getCategoryMenu = () => {

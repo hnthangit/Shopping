@@ -21,12 +21,14 @@ export class ShowManufacturerComponent implements OnInit {
   public columnsToDisplay: string[] = ['id', 'name', 'description', 'address', 'action'];
   public totalPage: number;
   public currentPage: number;
+  public currentPageDisplay: number = 1;
   public entries: number;
+  public collectionSize: number;
 
   constructor(private manufacturerService: ManufacturerService, private fb: FormBuilder, private toastr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.getAllManufacturersInit(0, 5, '', '');
+    this.getAllManufacturersInit(1, 5, '', '');
     this.entries = 5;
   }
 
@@ -40,7 +42,9 @@ export class ShowManufacturerComponent implements OnInit {
       this.manufacturers = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
-      this.paginator.createListPage(0, this.totalPage);
+      this.currentPageDisplay = this.currentPage+1;
+      this.collectionSize = this.entries * this.totalPage;
+      //this.paginator.createListPage(0, this.totalPage);
     });
   }
 
@@ -50,13 +54,14 @@ export class ShowManufacturerComponent implements OnInit {
       this.manufacturers = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
-      this.paginator.createListPage(0, this.totalPage);
+      this.currentPageDisplay = this.currentPage+1;
+      //this.paginator.createListPage(0, this.totalPage);
     });
   }
 
   onPageChanged = (pageNumber: number) => {
-    console.log("gia tri la"+pageNumber);
-    this.getAllManufacturers(pageNumber, this.entries, this.manufacturerForm.value.name, this.manufacturerForm.value.address);
+    //console.log("gia tri la"+pageNumber);
+    this.getAllManufacturers(pageNumber -1, this.entries, this.manufacturerForm.value.name, this.manufacturerForm.value.address);
   }
 
   showSuccess() {
@@ -123,7 +128,8 @@ export class ShowManufacturerComponent implements OnInit {
       this.manufacturers = response.data.list;
       this.totalPage = response.data.totalPage;
       this.currentPage = response.data.currentPage;
-      this.paginator.createListPage(0, this.totalPage);
+      this.collectionSize = this.entries * this.totalPage;
+      //this.paginator.createListPage(0, this.totalPage);
     });
   }
 

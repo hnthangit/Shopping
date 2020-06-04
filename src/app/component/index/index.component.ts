@@ -3,6 +3,7 @@ import { IndexService } from 'src/app/service/index.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { serverUrl } from 'src/app/constant/constant';
+import { DecimalPipe } from '@angular/common';
 //import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
@@ -89,7 +90,14 @@ export class IndexComponent implements OnInit {
     scales: {
       // We use this empty structure as a placeholder for dynamic theming.
       xAxes: [{}],
-      yAxes: [{}]
+      yAxes: [{
+        ticks: {
+          callback: (dataLabel, index)=> {                  
+            let decimalPipe = new DecimalPipe('en');
+            return decimalPipe.transform(dataLabel, '1.0-0');
+          }
+      }
+      }]
     },
     annotation: {
       annotations: [

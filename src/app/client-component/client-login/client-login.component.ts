@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, AsyncValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-client-login',
@@ -10,11 +13,23 @@ import { Router } from '@angular/router';
 })
 export class ClientLoginComponent implements OnInit {
 
+  private isUserNameExist = (service: UserService): AsyncValidatorFn => {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return service.isUserNameExist(control.value).pipe(
+        map(res => {
+          // if res is true, username exists, return true
+          return  (res['data'] ? { userNameExist: true } : null);
+          // NB: Return null if there is no error
+        })
+      );
+    };
+  }
+
   public isRemberMeChecked: boolean = false;
   public isLoginFailed: boolean = false;
   public loadingLogin: boolean = false;
-
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  public isRegisterSuccess = "";
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -26,7 +41,7 @@ export class ClientLoginComponent implements OnInit {
   });
 
   registerForm = this.fb.group({
-    username: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required, Validators.email], this.isUserNameExist(this.userService).bind(this)],
     password: ['', Validators.required],
     repassword: ['', Validators.required],
     name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]],
@@ -41,6 +56,15 @@ export class ClientLoginComponent implements OnInit {
     return pass === confirmPass ? null : { notSame: true }
   }
 
+  register = () => {
+    this.userService.register(this.registerForm.value).subscribe(
+      response => {
+        this.isRegisterSuccess = response['data'];
+        setTimeout(function(){ window.location.href = 'http://localhost:4200/client/index'; }, 3000);
+      }
+    )
+  }
+
   login = () => {
     this.loadingLogin = true;
     this.authService.clientLogin(this.loginForm.value).subscribe(
@@ -52,7 +76,8 @@ export class ClientLoginComponent implements OnInit {
           } else {
             sessionStorage.setItem('token', response['data'])
           }
-          this.router.navigate(['/client/index'])
+          window.location.href = 'http://localhost:4200/client/index';
+          //this.router.navigate(['/client/index'])
         } else {
           this.isLoginFailed = true;
           this.loadingLogin = false;

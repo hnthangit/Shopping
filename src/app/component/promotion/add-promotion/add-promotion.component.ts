@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, ValidatorFn, FormGroup } from '@angular/forms';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { ManufacturerService } from 'src/app/service/manufacturer.service';
 import { CategoryService } from 'src/app/service/category.service';
@@ -7,6 +7,7 @@ import { FileService } from 'src/app/service/file.service';
 import { PromotionService } from 'src/app/service/promotion.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { IndexService } from 'src/app/service/index.service';
 
 @Component({
   selector: 'app-add-promotion',
@@ -26,11 +27,45 @@ export class AddPromotionComponent implements OnInit {
       return null;
     };
   }
+
+  startDateValidator = () => {      //factory function
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      let selectDate = new Date(control.value.year, control.value.month - 1, control.value.day);
+      //console.log(this.lastestPromotion);
+      let lastestDate = new Date(this.lastestPromotion.endDate);
+      if (selectDate <= lastestDate) {
+        return { 'startDateValidator': true }
+      }
+      return null;
+    };
+  }
+
+  // endDateValidator = () => {      //factory function
+  //   return (control: AbstractControl): { [key: string]: boolean } | null => {
+  //     let selectDate = new Date(control.value.year, control.value.month - 1, control.value.day);
+  //     let startDate = new Date(this.promotionForm.get('startDate').value.year, this.promotionForm.get('startDate').value.month-1, this.promotionForm.get('startDate').value.day );
+  //     if (selectDate < startDate) {
+  //       return { 'endDateValidator': true }
+  //     }
+  //     return null;
+  //   };
+  // }
+
+  
+validateEndDate: ValidatorFn = (fg: FormGroup) => {
+  let startDate = new Date(fg.get('startDate').value.year, fg.get('startDate').value.month-1, fg.get('startDate').value.day)
+  let endDate = new Date(fg.get('endDate').value.year, fg.get('endDate').value.month-1, fg.get('endDate').value.day)
+  if (startDate > endDate)
+    return { invalidEndDate: true }
+  return null;
+};
+
   public manufacturers = [];
   public categories = [];
 
   public startDate = "";
   public endDate = "";
+  public endDateValidate;
   public isPercent: boolean = true;
   public selectedProducts = [];
   public applyType = "CATEGORY";
@@ -42,6 +77,8 @@ export class AddPromotionComponent implements OnInit {
 
   private formData = new FormData();
 
+  lastestPromotion;
+
   constructor(
     private fb: FormBuilder,
     private parserFormatter: NgbDateParserFormatter,
@@ -50,11 +87,13 @@ export class AddPromotionComponent implements OnInit {
     private fileService: FileService,
     private promotionServe: PromotionService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private indexService: IndexService,
   ) { }
 
   ngOnInit() {
     this.getSelectBoxValue();
+    this.getLastestPromotion();
   }
 
   promotionForm = this.fb.group({
@@ -66,7 +105,19 @@ export class AddPromotionComponent implements OnInit {
     image: [''],
     type: ['CATEGORY'],
     typeId: [0],
+  }, {
+    validator: this.validateEndDate.bind(this)
   });
+
+  getLastestPromotion = () => {
+    this.indexService.getPromotionInfo().subscribe(
+      response => {
+        this.lastestPromotion = response['data'];
+        this.promotionForm.get('startDate').setValidators([Validators.required, this.dateValidator(), this.startDateValidator()]);
+        this.promotionForm.get('startDate').updateValueAndValidity();
+      }
+    )
+  }
 
   onSubmit = () => {
     this.promotionForm.patchValue({

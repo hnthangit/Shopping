@@ -30,6 +30,7 @@ export class EditManufacturerComponent implements OnInit {
   onSubmit = (values) => {
     this.manufacturerService.updateManufacturer(values).subscribe(response => {
       this.showSuccess();
+      this.router.navigate(['/admin/manufacturers']);
     });
   }
 

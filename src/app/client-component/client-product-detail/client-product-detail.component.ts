@@ -40,6 +40,9 @@ export class ClientProductDetailComponent implements OnInit {
   public reviewList = [];
   public username;
   public alreadyReview: boolean = false ;
+  public sendSubmit: boolean = true;
+
+  public relatedProduct = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -90,7 +93,7 @@ export class ClientProductDetailComponent implements OnInit {
 
   getMyReview = (productId: number) => {
     let username = this.authService.getUserId();
-    console.log(username);
+    //console.log(username);
     if(username!=null){
       this.reviewList.forEach(element => {
         //console.log(element.content);
@@ -100,6 +103,7 @@ export class ClientProductDetailComponent implements OnInit {
             content: element.content,
             rating: element.rating,
           })
+          this.sendSubmit = false;
         }
       });
       this.reviewForm.patchValue({
@@ -297,15 +301,54 @@ export class ClientProductDetailComponent implements OnInit {
         )
 
         this.updateReviewForm();
-        
 
         this.reviewForm.patchValue({
           productEntity: {
             id: this.product.id,
           }
         })
+
+        this.productService.getRelatedProduct(this.product.id).subscribe(
+          response => {
+            this.relatedProduct = response['data'];
+          }
+        )
       }
     )
+  }
+
+  addToCartRelated = (id, name, image, price) => {
+    if (localStorage.getItem('cart') == null) {
+      let cart = [];
+      let product = { id: id, name: name, image:image, quantity: 1, price: price, attribute:[] };
+      cart.push(product);
+
+      this.cartService.setItem('cart', JSON.stringify(cart));
+      //localStorage.setItem('cart', JSON.stringify(cart));
+
+    } else {
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      let product = { id: id, name: name, image: image, quantity: 1, price: price, attribute: [] };
+      let check: boolean = false;
+      let duplicateItem: number = 0;
+      cart.forEach(element => {
+        if (element.id == product.id) {
+          if (this.arraysEqual(element.attribute, product.attribute) == true) {
+            duplicateItem++;
+            element.quantity++;
+          }
+        }
+      });
+
+      if (duplicateItem == 0) {
+        cart.push(product);
+      }
+
+      this.cartService.setItem('cart', JSON.stringify(cart));
+      //localStorage.setItem('cart', JSON.stringify(cart));
+
+    }
+
   }
 
 }

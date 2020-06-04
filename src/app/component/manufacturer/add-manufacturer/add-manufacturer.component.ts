@@ -14,7 +14,7 @@ export class AddManufacturerComponent implements OnInit {
   constructor(private fb: FormBuilder, private manufacturerService: ManufacturerService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.showSuccess();
+    //this.showSuccess();
   }
 
   manufacturerForm = this.fb.group({

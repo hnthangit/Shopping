@@ -5,6 +5,9 @@ import { serverUrl } from 'src/app/constant/constant';
 import { Observable, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CartService } from 'src/app/service/cart.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
 //declare var $: any;
 
 @Component({
@@ -38,6 +41,9 @@ export class ClientIndexComponent implements OnInit {
   constructor(
     private indexService: IndexService,
     private cartService: CartService,
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
@@ -165,6 +171,20 @@ getSeconds(t){
 
     }
 
+  }
+
+  addToWishlist = (id) => {
+    let username = this.authService.getUserId();
+    if(username!=null){
+      let body = {id: 0, productEntity: { id: id}, userEntity: {username: username}};
+      this.userService.addWishlist(body).subscribe(
+        response => {
+
+        }
+      )
+    } else {
+      this.router.navigate(['/client/login'])
+    }
   }
 
 }

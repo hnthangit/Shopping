@@ -42,7 +42,13 @@
                                     <td>
                                         <div class="media">
                                             <div class="d-flex">
-                                                <img style="height: 130px; width: 130px;" [src]="url + item.image" alt="">
+                                                <ng-container *ngIf="item.productEntity.image; else noImage">
+                                                    <img style="height: 130px; width: 130px;" [src]="url + item.image" alt="">
+                                                </ng-container>
+                                                <ng-template #noImage>
+                                                   <img style="height: 130px; width: 130px;" 
+                                                            src="assets/no_image.jpg">
+                                                </ng-template>
                                             </div>
                                             <div class="media-body">
                                                 <h3>{{item.name}}</h3>

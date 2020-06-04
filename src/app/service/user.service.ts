@@ -29,4 +29,31 @@ export class UserService {
     const url = `${serverUrl}clients/user/info`;
     return this.http.post(url, body);
   }
+
+  register = (body: any) => {
+    const url = `${serverUrl}clients/user/register`;
+    return this.http.post(url, body);
+  }
+
+  isUserNameExist = (username: string) => {
+    let body = {username: username};
+    const url = `${serverUrl}clients/user/checkusername`;
+    return this.http.post(url, body);
+  }
+
+  addWishlist = (body: any) => {
+    const url = `${serverUrl}clients/user/add-wishlist`;
+    return this.http.post(url, body);
+  }
+
+  getWishlist = (username: string) => {
+    let body = {username: username};
+    const url = `${serverUrl}clients/user/get-wishlist`;
+    return this.http.post(url, body);
+  }
+
+  deleteWishlist = (wishlistId: number) => {
+    const url = `${serverUrl}clients/user/delete-wishlist/${wishlistId}`;
+    return this.http.get(url);
+  }
 }
