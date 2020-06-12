@@ -5,8 +5,8 @@
             <div class="col-first">
                 <h1>Shopping Cart</h1>
                 <nav class="d-flex align-items-center">
-                    <a href="/client/cart">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="category.html">Cart</a>
+                    <a routerLink="/client/index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="javascript:void(0)">Cart</a>
                 </nav>
             </div>
         </div>
@@ -42,7 +42,7 @@
                                     <td>
                                         <div class="media">
                                             <div class="d-flex">
-                                                <ng-container *ngIf="item.productEntity.image; else noImage">
+                                                <ng-container *ngIf="item.image; else noImage">
                                                     <img style="height: 130px; width: 130px;" [src]="url + item.image" alt="">
                                                 </ng-container>
                                                 <ng-template #noImage>

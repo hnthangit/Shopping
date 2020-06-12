@@ -19,6 +19,7 @@ import { ShowPostComponent } from 'src/app/component/post/show-post/show-post.co
 import { AddPostComponent } from 'src/app/component/post/add-post/add-post.component';
 import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.component';
 import { AttributeComponent } from 'src/app/component/attribute/attribute.component';
+import { ReportComponent } from 'src/app/component/report/report.component';
 
 
 const routes: Routes = [
@@ -168,6 +169,18 @@ const routes: Routes = [
             path: '',
             data: { animation: 'MainLayout'},
             component: AttributeComponent,
+          },
+        ]
+      },
+      {
+        path: 'reports',
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: '',
+            data: { animation: 'MainLayout'},
+            component: ReportComponent,
           },
         ]
       },

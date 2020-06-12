@@ -5,8 +5,8 @@
             <div class="col-first">
                 <h1>Checkout</h1>
                 <nav class="d-flex align-items-center">
-                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="single-product.html">Checkout</a>
+                    <a routerLink="/client/index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="javascript:void(0)">Checkout</a>
                 </nav>
             </div>
         </div>
@@ -76,8 +76,16 @@
                                             <div class="table-row">
                                                 <div class="serial" style="width: 10% !important;">{{index+1}}</div>
                                                 <div class="percentage" style="width: 40% !important;">
-                                                    <img style="height: 100px; width: 100px;" [src]="url + item.image"
+                                                    <ng-container *ngIf="item.image; else noImage">
+                                                        <img style="height: 100px; width: 100px;" [src]="url + item.image"
                                                         alt="">
+                                                    </ng-container>
+                                                    <ng-template #noImage>
+                                                       <img style="height: 100px; width: 100px;" 
+                                                                src="assets/no_image.jpg">
+                                                    </ng-template>
+                                                    <!-- <img style="height: 100px; width: 100px;" [src]="url + item.image"
+                                                        alt=""> -->
                                                     <div class="ml-2">
                                                         <h4> {{item.name}}</h4>
                                                         <ng-container *ngIf="item.attribute.length!=0">

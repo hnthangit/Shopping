@@ -61,24 +61,6 @@
   
     </div>
     <div class="card">
-      <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="card-title">
-            <span class="d-flex justify-content-center align-items-center">
-              <label class="mr-2">Entries</label>
-              <select class="form-control" (change)="onChange($event.target.value)">
-                <option>5</option>
-                <option>10</option>
-                <option>20</option>
-                <option>50</option>
-              </select>
-            </span>
-          </h3>
-          <div class="card-tools">
-            <a class="btn btn-primary btn-sm" routerLink='/admin/products/add' routerLinkActive="active">Add</a>
-          </div>
-        </div>
-      </div>
       <div class="card-body">
         <ng-container *ngIf="reviews">
           <!-- https://material.angular.io/components/table/examples -->

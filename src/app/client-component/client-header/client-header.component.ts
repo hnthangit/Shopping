@@ -31,14 +31,14 @@ export class ClientHeaderComponent implements OnInit {
     this.userLoggedIn = this.authService.isLoggedIn();
     this.getCategoryMenu();
     $(document).ready(function(){
-      var window_width 	 = $(window).width(),
-      window_height 		 = window.innerHeight,
-      header_height 		 = $(".default-header").height(),
-      header_height_static = $(".site-header.static").outerHeight(),
-      fitscreen 			 = window_height - header_height;
+      // var window_width 	 = $(window).width(),
+      // window_height 		 = window.innerHeight,
+      // header_height 		 = $(".default-header").height(),
+      // header_height_static = $(".site-header.static").outerHeight(),
+      // fitscreen 			 = window_height - header_height;
     
-      $(".fullscreen").css("height", window_height)
-        $(".fitscreen").css("height", fitscreen);
+      // $(".fullscreen").css("height", window_height)
+      //   $(".fitscreen").css("height", fitscreen);
     
       //------- Active Nice Select --------//
     

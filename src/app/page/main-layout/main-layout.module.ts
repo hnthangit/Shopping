@@ -39,6 +39,7 @@ import { ReviewComponent } from 'src/app/component/review/review.component';
 import { EditPostComponent } from 'src/app/component/post/edit-post/edit-post.component';
 import { AttributeComponent } from 'src/app/component/attribute/attribute.component';
 import { AddAttributeComponent } from 'src/app/component/attribute/add-attribute/add-attribute.component';
+import { ReportComponent } from 'src/app/component/report/report.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { AddAttributeComponent } from 'src/app/component/attribute/add-attribute
     EditPostComponent,
     AttributeComponent,
     AddAttributeComponent,
+    ReportComponent,
   ],
   imports: [
     CommonModule,
